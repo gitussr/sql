@@ -1,4 +1,4 @@
-import { FluentProvider, makeStyles, mergeClasses, tokens } from '@fluentui/react-components';
+import { FluentProvider, makeStyles, tokens } from '@fluentui/react-components';
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
 import { codeCssVariables } from './codeColors';
 import { localStore } from '../../lib/storage/localStore';
@@ -15,12 +15,19 @@ interface ThemeContextValue {
 const ThemeContext = createContext<ThemeContextValue | null>(null);
 
 const useStyles = makeStyles({
-  root: {
+  /**
+   * The app surface. It deliberately does NOT live on FluentProvider:
+   * applyStylesToPortals copies that className onto the portal mount, a
+   * full-viewport element at z-index 1000000, so a background there would
+   * cover the page behind every menu and tooltip.
+   */
+  app: {
     minHeight: '100dvh',
     backgroundColor: tokens.colorNeutralBackground1,
     color: tokens.colorNeutralForeground1,
   },
-  // Syntax colours are not Fluent tokens; expose them as custom properties per theme.
+  // Syntax colours are not Fluent tokens; expose them as custom properties per
+  // theme. These belong on the provider so portalled content inherits them.
   lightCode: codeCssVariables('light'),
   darkCode: codeCssVariables('dark'),
 });
@@ -46,8 +53,8 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 
   return (
     <ThemeContext.Provider value={value}>
-      <FluentProvider theme={theme} className={mergeClasses(styles.root, resolved === 'dark' ? styles.darkCode : styles.lightCode)} applyStylesToPortals>
-        {children}
+      <FluentProvider theme={theme} className={resolved === 'dark' ? styles.darkCode : styles.lightCode} applyStylesToPortals>
+        <div className={styles.app}>{children}</div>
       </FluentProvider>
     </ThemeContext.Provider>
   );

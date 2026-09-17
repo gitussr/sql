@@ -102,7 +102,7 @@ export function OnThisPage({ outline, variant }: OnThisPageProps) {
   }
 
   return (
-    <nav aria-labelledby="on-this-page-title" className={styles.sidebar}>
+    <nav aria-labelledby="on-this-page-title" className={mergeClasses(styles.sidebar, 'sg-no-scrollbar')}>
       <Caption1Strong id="on-this-page-title" className={styles.title}>
         On this page
       </Caption1Strong>

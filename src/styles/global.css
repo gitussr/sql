@@ -28,6 +28,26 @@ body {
   -webkit-text-size-adjust: 100%;
 }
 
+/*
+ * Hidden scrollbars for the page, the navigation drawer and the "On this page"
+ * rail. All three still scroll by wheel, touch, keyboard and programmatically;
+ * only the track is gone. Code blocks and wide tables keep their scrollbars:
+ * there the bar is the sole hint that content continues sideways.
+ */
+html,
+#handbook-nav,
+#handbook-nav *,
+.sg-no-scrollbar {
+  scrollbar-width: none;
+}
+
+html::-webkit-scrollbar,
+#handbook-nav::-webkit-scrollbar,
+#handbook-nav *::-webkit-scrollbar,
+.sg-no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
