@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="SQL Guide — a structured, offline-capable handbook for learning SQL from syntax to database engineering." />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#ffffff" />
+    <!-- Relative URLs inside the manifest resolve against it, so one file serves both the root and the /sql/ project site. -->
+    <link rel="manifest" href="/sql/manifest.webmanifest" />
+    <link rel="icon" href="/sql/favicon.ico" sizes="48x48" />
+    <link rel="icon" href="/sql/favicon-32.png" type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/sql/apple-touch-icon.png" />
+    <title>SQL Guide</title>
+    <script>
+      // Apply the stored theme before first paint to avoid a light/dark flash.
+      (function () {
+        var pref;
+        try { pref = JSON.parse(localStorage.getItem('sql-guide:theme')); } catch (e) {}
+        var dark = pref === 'dark' || (pref !== 'light' && matchMedia('(prefers-color-scheme: dark)').matches);
+        document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+      })();
+    </script>
+    <script type="module" crossorigin src="/sql/assets/index-BDYbTiTn.js"></script>
+    <link rel="modulepreload" crossorigin href="/sql/assets/rolldown-runtime-CbXtAM7H.js">
+    <link rel="modulepreload" crossorigin href="/sql/assets/react-DnBFBSvL.js">
+    <link rel="modulepreload" crossorigin href="/sql/assets/fluent-D_0OJoBt.js">
+    <link rel="stylesheet" crossorigin href="/sql/assets/index-B_wFMrAn.css">
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
