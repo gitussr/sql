@@ -12,6 +12,17 @@ body,
   min-height: 100%;
 }
 
+/*
+ * The secondary brand accent. Amber is only ever a fill carrying amber-ink
+ * text: on white it is 1.66:1, so it can never be text or a border in light
+ * mode. The pair is identical in both themes, which is what lets a badge keep
+ * one appearance throughout.
+ */
+:root {
+  --sg-accent: #ffbe00;
+  --sg-accent-ink: #25182e;
+}
+
 /* Matches Fluent 2 colorNeutralBackground1 so there is no flash before React mounts. */
 html[data-theme='light'] {
   background: #ffffff;
@@ -19,7 +30,7 @@ html[data-theme='light'] {
 }
 
 html[data-theme='dark'] {
-  background: #292929;
+  background: #25182e;
   color-scheme: dark;
 }
 

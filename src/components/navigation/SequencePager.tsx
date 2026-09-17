@@ -34,7 +34,9 @@ const useStyles = makeStyles({
     marginInlineStart: tokens.spacingHorizontalXS,
     paddingInline: tokens.spacingHorizontalXS,
     borderRadius: tokens.borderRadiusSmall,
-    border: `${tokens.strokeWidthThin} solid ${tokens.colorNeutralStroke2}`,
+    // Amber accent: a fill with ink text, which reads the same in both themes.
+    backgroundColor: 'var(--sg-accent)',
+    color: 'var(--sg-accent-ink)',
     fontFamily: tokens.fontFamilyMonospace,
     fontSize: tokens.fontSizeBase100,
     lineHeight: tokens.lineHeightBase100,

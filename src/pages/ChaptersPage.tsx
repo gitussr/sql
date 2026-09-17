@@ -3,7 +3,6 @@ import {
   AccordionHeader,
   AccordionItem,
   AccordionPanel,
-  Badge,
   Body1,
   Button,
   Caption1,
@@ -16,6 +15,7 @@ import {
 } from '@fluentui/react-components';
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router';
+import { ComingSoonBadge } from '../components/learning/ComingSoonBadge';
 import { PageBreadcrumb } from '../components/navigation/PageBreadcrumb';
 import { SectionList } from '../components/navigation/SectionList';
 import { chapters } from '../content/handbook';
@@ -99,9 +99,7 @@ export function ChaptersPage() {
                   <span className={styles.headerNumber}>{chapter.number}</span>
                   <span className={styles.headerTitle}>{chapter.title}</span>
                   {chapter.status === 'coming-soon' ? (
-                    <Badge appearance="outline" color="informative">
-                      Coming soon
-                    </Badge>
+                    <ComingSoonBadge />
                   ) : (
                     <Caption1>{plural(chapter.sections.length, 'section')}</Caption1>
                   )}

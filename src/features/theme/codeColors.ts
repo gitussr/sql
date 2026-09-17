@@ -10,7 +10,8 @@ export interface CodePalette {
 /**
  * Syntax colours based on VS Code Light+ / Dark+, adjusted where needed so
  * every token meets WCAG AA (4.5:1) against the code background.
- * Backgrounds equal Fluent colorNeutralBackground3 (light) / Background2 (dark).
+ * Backgrounds equal Fluent colorNeutralBackground3 (light) / Background2 (dark),
+ * so the dark listing sits on the same plum family as the rest of the page.
  */
 export const codePalettes: Record<ResolvedTheme, CodePalette> = {
   light: {
@@ -30,7 +31,7 @@ export const codePalettes: Record<ResolvedTheme, CodePalette> = {
     },
   },
   dark: {
-    background: '#1f1f1f',
+    background: '#261830',
     foreground: '#d6d6d6',
     tokens: {
       k: '#569cd6',

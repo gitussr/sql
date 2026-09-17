@@ -1,6 +1,7 @@
-import { Badge, Body1, Button, Caption1, Divider, makeStyles, Subtitle1, Title1, tokens } from '@fluentui/react-components';
+import { Body1, Button, Caption1, Divider, makeStyles, Subtitle1, Title1, tokens } from '@fluentui/react-components';
 import { ArrowRight20Regular } from '@fluentui/react-icons';
 import { Link, useNavigate } from 'react-router';
+import { ComingSoonBadge } from '../components/learning/ComingSoonBadge';
 import { chapters } from '../content/handbook';
 import { chapterPath, readingOrder, sectionPath } from '../content/navigation';
 import { useDocumentTitle } from '../lib/utils/useDocumentTitle';
@@ -69,9 +70,7 @@ export function HomePage() {
                 <Caption1 className={styles.chapterNumber}>{chapter.number}</Caption1>
                 <Body1 className={styles.chapterTitle}>{chapter.title}</Body1>
                 {chapter.status === 'coming-soon' ? (
-                  <Badge appearance="outline" color="informative">
-                    Coming soon
-                  </Badge>
+                  <ComingSoonBadge />
                 ) : (
                   <Caption1>{chapter.sections.length} sections</Caption1>
                 )}

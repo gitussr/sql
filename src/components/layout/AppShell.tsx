@@ -1,6 +1,7 @@
 import { Hamburger, makeStyles, Text, tokens, Tooltip } from '@fluentui/react-components';
 import { useEffect, useState } from 'react';
 import { Link, Outlet, ScrollRestoration, useLocation } from 'react-router';
+import logoUrl from '../../assets/sql-logo.png';
 import { ThemeSwitcher } from '../../features/theme/ThemeSwitcher';
 import { useMediaQuery } from '../../lib/utils/useMediaQuery';
 import { HandbookNav } from '../navigation/HandbookNav';
@@ -32,12 +33,16 @@ const useStyles = makeStyles({
     borderBottom: `${tokens.strokeWidthThin} solid ${tokens.colorNeutralStroke2}`,
   },
   brand: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: tokens.spacingHorizontalSNudge,
     color: tokens.colorNeutralForeground1,
     textDecoration: 'none',
     paddingInline: tokens.spacingHorizontalXS,
     borderRadius: tokens.borderRadiusMedium,
     ':hover': { color: tokens.colorBrandForeground1 },
   },
+  logo: { width: '24px', height: '24px', display: 'block' },
   spacer: { flexGrow: 1 },
   body: { display: 'flex', alignItems: 'flex-start' },
   inlineNav: {
@@ -82,6 +87,7 @@ export function AppShell() {
           <Hamburger onClick={() => setNavOpen(!navOpen)} aria-expanded={navOpen} />
         </Tooltip>
         <Link to="/" className={styles.brand}>
+          <img src={logoUrl} alt="" aria-hidden className={styles.logo} width={24} height={24} />
           <Text weight="semibold" size={400}>
             SQL Guide
           </Text>

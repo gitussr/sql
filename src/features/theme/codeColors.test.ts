@@ -1,6 +1,6 @@
-import { webDarkTheme, webLightTheme } from '@fluentui/react-components';
 import { describe, expect, it } from 'vitest';
 import { codeCssVariables, codePalettes, contrastRatio } from './codeColors';
+import { darkTheme, lightTheme } from './themes';
 
 describe('code colours', () => {
   it.each(['light', 'dark'] as const)('meet WCAG AA against the %s code background', (theme) => {
@@ -10,9 +10,9 @@ describe('code colours', () => {
     }
   });
 
-  it('use Fluent neutral backgrounds', () => {
-    expect(codePalettes.light.background).toBe(webLightTheme.colorNeutralBackground3);
-    expect(codePalettes.dark.background).toBe(webDarkTheme.colorNeutralBackground2);
+  it("sit on the page's own neutral surfaces", () => {
+    expect(codePalettes.light.background).toBe(lightTheme.colorNeutralBackground3);
+    expect(codePalettes.dark.background).toBe(darkTheme.colorNeutralBackground2);
   });
 
   it('exposes every token as a CSS variable', () => {
