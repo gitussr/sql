@@ -16,7 +16,7 @@ import {
   type NavDrawerProps,
 } from '@fluentui/react-components';
 import { BookOpen20Filled, BookOpen20Regular, bundleIcon, Home20Filled, Home20Regular } from '@fluentui/react-icons';
-import type { MouseEvent } from 'react';
+import { useEffect, useState, type MouseEvent } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 import { chapters } from '../../content/handbook';
 import { chapterPath, sectionPath } from '../../content/navigation';
@@ -40,12 +40,31 @@ interface HandbookNavProps {
   className?: string;
 }
 
+const NAV_ID = 'handbook-nav';
+
 /** Handbook navigation tree, driven entirely by chapter metadata. */
 export function HandbookNav({ open, type, onOpenChange, className }: HandbookNavProps) {
   const styles = useStyles();
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const currentChapter = pathname.match(/^\/chapter\/(\d+)/)?.[1];
+  const [openCategories, setOpenCategories] = useState<string[]>(() => [
+    currentChapter ?? chapters.find((chapter) => chapter.status === 'available')?.number ?? '',
+  ]);
+
+  // Moving to another chapter (via links, previous/next or shortcuts) always reveals it.
+  useEffect(() => {
+    if (currentChapter) setOpenCategories((categories) => (categories.includes(currentChapter) ? categories : [...categories, currentChapter]));
+  }, [currentChapter]);
+
+  // Keep the current page visible in a long, scrolled sidebar.
+  useEffect(() => {
+    if (!open) return;
+    const frame = requestAnimationFrame(() => {
+      document.getElementById(NAV_ID)?.querySelector('[aria-current="page"]')?.scrollIntoView({ block: 'nearest' });
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [pathname, open, openCategories]);
 
   // Keep real hrefs for semantics (open in new tab, copy link) but route client-side.
   const go = (path: string) => (event: MouseEvent) => {
@@ -60,7 +79,12 @@ export function HandbookNav({ open, type, onOpenChange, className }: HandbookNav
       open={open}
       type={type}
       selectedValue={decodeURI(pathname)}
-      defaultOpenCategories={currentChapter ? [currentChapter] : ['05']}
+      id={NAV_ID}
+      openCategories={openCategories}
+      onNavCategoryItemToggle={(_, data) => {
+        const value = String(data.categoryValue ?? data.value);
+        setOpenCategories((categories) => (categories.includes(value) ? categories.filter((item) => item !== value) : [...categories, value]));
+      }}
       onOpenChange={(_, data) => onOpenChange(data.open)}
       className={mergeClasses(styles.root, className)}
       aria-label="Handbook navigation"
@@ -97,7 +121,7 @@ export function HandbookNav({ open, type, onOpenChange, className }: HandbookNav
               </NavCategoryItem>
               <NavSubItemGroup>
                 <NavSubItem href={path} value={path} onClick={go(path)}>
-                  Overview
+                  Introduction
                 </NavSubItem>
                 {chapter.sections.map((section) => {
                   const sectionHref = sectionPath(chapter, section);
