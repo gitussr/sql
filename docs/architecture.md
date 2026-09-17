@@ -101,3 +101,44 @@ Warnings are reported without failing: numbering gaps, code blocks without a lan
 - 05.11's Summary paragraph ends with a stray four-backtick fence.
 - Related Topics whose number and title disagree (left unlinked): in 05.08, "05.09 — FROM Clause"; in 05.09, "05.10 — FROM Clause"; in the chapter introduction, 05.01–05.04 each carry the following section's title.
 - 05.14 does not exist yet, so the chapter ends at 05.13.
+
+## Phase 4 — Reading experience
+
+### Rendering
+
+`src/components/content/ContentRenderer.tsx` maps the imported node tree straight to React elements. No HTML strings are injected anywhere (no `dangerouslySetInnerHTML`); link and image URLs are restricted to safe schemes, and external links open with `rel="noopener noreferrer"`.
+
+| Component | Purpose |
+| --- | --- |
+| `SectionBody` | Maps blocks to components; every block title is an `h2` with a shareable `#` link |
+| `CodeBlock` | Language label, Copy → "Copied ✓" (with a selection fallback and screen-reader announcement), wrap toggle, optional line numbers, keyboard-scrollable |
+| `DataTable` | Column headers, GFM alignment, horizontal scroll inside a focusable container named after its columns |
+| `Callout` | The seven callout variants: Fluent icon + restrained accent border; the title always names the callout |
+| `Aside` | Labelled notes (`Portability Tip`, `Remember`) |
+| `ExecutionOrderReminder` | Authored steps with the marked clause highlighted (`aria-current="step"`), or `<ExecutionOrderReminder highlight="WHERE" />` for the canonical order |
+| `RelatedTopics` | Links resolved sections/chapters; unresolved references stay as muted text |
+| `OnThisPage` | Sticky right column with active-heading tracking at ≥1400px; collapsible disclosure below that |
+
+Chapter pages render the chapter introduction below the section list.
+
+### Syntax highlighting
+
+Highlighting runs **at build time** (`scripts/handbook/highlight.ts`, Prism grammars via `refractor`, dev dependency only). Code nodes carry compact `[text, kind]` segments; an integrity test asserts the segments spell out the source exactly. Text diagrams and unlabelled blocks are not highlighted. Highlighting added ~6% to section data and no JavaScript to the client.
+
+Token colours (`src/features/theme/codeColors.ts`) follow VS Code Light+/Dark+, with two light colours darkened so every token meets WCAG AA on the code background (enforced by a test). They are exposed as CSS custom properties on the theme root.
+
+### Typography
+
+Reading text is 16px with a 1.7 line height in a 760px column. Headings step 24/20/16px, with scroll margins so anchors clear the sticky header.
+
+### Import changes made for the reader
+
+- Line endings are normalised to LF when files are read. Windows checkouts had put `\r\n` into code blocks, making builds OS-dependent and copied code CRLF.
+- Heading levels are clamped so they never skip (05.07 and 05.11 go from `# Common Mistakes` to `### Mistake 1`). The author's relative nesting is kept; heading text and order are unchanged.
+
+### Verification
+
+- Every Chapter 05 section and the chapter introduction render through the components in tests, with code block, table, callout and execution-order counts matching the imported content, and unique anchor ids.
+- Headless Chrome at 320/375/768/1280/1440px, light and dark: no page-level horizontal overflow (wide code and tables scroll inside their containers), no console errors.
+- Copy verified with a real click: the clipboard receives the code exactly (Windows converts to CRLF on the clipboard itself).
+- axe-core (WCAG 2.0–2.2 A/AA plus best practices) on 05.07, 05.11 and the chapter page, both themes, desktop and mobile: no contrast, landmark, heading-order or target-size violations. The one remaining report, `aria-hidden-focus`, is Fluent's Tabster focus sentinels (`data-tabster-dummy`) inside `NavDrawerBody`, not app markup.
