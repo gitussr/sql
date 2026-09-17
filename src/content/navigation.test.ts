@@ -1,6 +1,17 @@
 import { describe, expect, it } from 'vitest';
 import { chapters } from './handbook';
-import { adjacentSections, chapterPath, findChapter, findSection, readingOrder, sectionPath } from './navigation';
+import {
+  adjacentEntries,
+  chapterPath,
+  entryKey,
+  entryLabel,
+  entryPath,
+  findChapter,
+  findSection,
+  readingOrder,
+  readingSequence,
+  sectionPath,
+} from './navigation';
 
 describe('handbook structure', () => {
   const order = readingOrder();
@@ -45,16 +56,34 @@ describe('navigation helpers', () => {
     expect(sectionPath(chapter, section)).toBe('/chapter/05/select-statement/05-11-from-clause-deep-dive');
   });
 
-  it('resolves previous and next sections', () => {
-    expect(adjacentSections('05.01').previous).toBeUndefined();
-    expect(adjacentSections('05.01').next?.section.id).toBe('05.02');
-    expect(adjacentSections('05.11').previous?.section.id).toBe('05.10');
-    expect(adjacentSections('05.11').next?.section.id).toBe('05.12');
-    expect(adjacentSections('05.13').next).toBeUndefined();
+  it('reads each chapter introduction before its sections', () => {
+    const keys = readingSequence().map(entryKey);
+    expect(keys.slice(0, 3)).toEqual(['chapter:05', 'section:05.01', 'section:05.02']);
+    expect(keys.at(-1)).toBe('section:05.13');
+    // Coming-soon chapters have nothing to read.
+    expect(keys).not.toContain('chapter:06');
+  });
+
+  it('resolves previous and next entries', () => {
+    expect(adjacentEntries('chapter:05').previous).toBeUndefined();
+    expect(entryKey(adjacentEntries('chapter:05').next!)).toBe('section:05.01');
+    expect(entryKey(adjacentEntries('section:05.01').previous!)).toBe('chapter:05');
+    expect(entryKey(adjacentEntries('section:05.11').previous!)).toBe('section:05.10');
+    expect(entryKey(adjacentEntries('section:05.11').next!)).toBe('section:05.12');
+    expect(adjacentEntries('section:05.13').next).toBeUndefined();
+  });
+
+  it('labels and links sequence entries', () => {
+    const [intro, first] = readingSequence();
+    expect([entryLabel(intro!), entryPath(intro!)]).toEqual(['Chapter 05: SELECT Statement', '/chapter/05/select-statement']);
+    expect([entryLabel(first!), entryPath(first!)]).toEqual([
+      '05.01 Introduction to SELECT',
+      '/chapter/05/select-statement/05-01-introduction-to-select',
+    ]);
   });
 
   it('returns nothing for unknown ids', () => {
-    expect(adjacentSections('99.99')).toEqual({ previous: undefined, next: undefined });
+    expect(adjacentEntries('section:99.99')).toEqual({ previous: undefined, next: undefined });
     expect(findChapter('99')).toBeUndefined();
   });
 });

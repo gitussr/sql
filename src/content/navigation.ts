@@ -10,6 +10,11 @@ export function chapterPath(chapter: Pick<Chapter, 'number' | 'slug'>): string {
   return `/chapter/${chapter.number}/${chapter.slug}`;
 }
 
+/** The chapter's entry in the full chapter list. */
+export function chapterListPath(chapter: Pick<Chapter, 'number'>): string {
+  return `/chapters#chapter-${chapter.number}`;
+}
+
 export function sectionPath(chapter: Pick<Chapter, 'number' | 'slug'>, section: Pick<Section, 'slug'>): string {
   return `${chapterPath(chapter)}/${section.slug}`;
 }
@@ -31,12 +36,43 @@ export function readingOrder(source: Chapter[] = defaultChapters): SectionEntry[
   return source.flatMap((chapter) => chapter.sections.map((section) => ({ chapter, section })));
 }
 
-export function adjacentSections(
-  id: string,
+/** A page in the linear reading sequence: a chapter introduction or a section. */
+export type SequenceEntry = { kind: 'chapter'; chapter: Chapter } | { kind: 'section'; chapter: Chapter; section: Section };
+
+/** Stable key for a sequence entry: "chapter:05" or "section:05.11". */
+export function entryKey(entry: SequenceEntry): string {
+  return entry.kind === 'chapter' ? `chapter:${entry.chapter.number}` : `section:${entry.section.id}`;
+}
+
+export function entryPath(entry: SequenceEntry): string {
+  return entry.kind === 'chapter' ? chapterPath(entry.chapter) : sectionPath(entry.chapter, entry.section);
+}
+
+export function entryLabel(entry: SequenceEntry): string {
+  return entry.kind === 'chapter'
+    ? `Chapter ${entry.chapter.number}: ${entry.chapter.title}`
+    : `${entry.section.number} ${entry.section.title}`;
+}
+
+/**
+ * The order previous/next (and the n/p shortcuts) follow: each available
+ * chapter's introduction, then its sections. Coming-soon chapters are skipped.
+ */
+export function readingSequence(source: Chapter[] = defaultChapters): SequenceEntry[] {
+  return source
+    .filter((chapter) => chapter.status === 'available')
+    .flatMap((chapter): SequenceEntry[] => [
+      ...(chapter.hasOverview ? [{ kind: 'chapter' as const, chapter }] : []),
+      ...chapter.sections.map((section) => ({ kind: 'section' as const, chapter, section })),
+    ]);
+}
+
+export function adjacentEntries(
+  key: string,
   source: Chapter[] = defaultChapters,
-): { previous: SectionEntry | undefined; next: SectionEntry | undefined } {
-  const order = readingOrder(source);
-  const index = order.findIndex((entry) => entry.section.id === id);
+): { previous: SequenceEntry | undefined; next: SequenceEntry | undefined } {
+  const sequence = readingSequence(source);
+  const index = sequence.findIndex((entry) => entryKey(entry) === key);
   if (index === -1) return { previous: undefined, next: undefined };
-  return { previous: order[index - 1], next: order[index + 1] };
+  return { previous: sequence[index - 1], next: sequence[index + 1] };
 }
