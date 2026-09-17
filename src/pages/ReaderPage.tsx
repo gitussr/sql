@@ -3,24 +3,31 @@ import {
   BreadcrumbButton,
   BreadcrumbDivider,
   BreadcrumbItem,
+  Body1,
   Button,
   Caption1,
   makeStyles,
-  MessageBar,
-  MessageBarBody,
   Title1,
   tokens,
 } from '@fluentui/react-components';
 import { ArrowLeft20Regular, ArrowRight20Regular } from '@fluentui/react-icons';
 import { Fragment, type MouseEvent } from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router';
+import { SectionMeta } from '../components/content/SectionMeta';
+import { SectionOutline } from '../components/content/SectionOutline';
 import { adjacentSections, chapterPath, findChapter, findSection, sectionPath } from '../content/navigation';
+import { useSectionContent } from '../content/useContent';
 import { useDocumentTitle } from '../lib/utils/useDocumentTitle';
 import { NotFoundPage } from './NotFoundPage';
 import { usePageStyles } from './pageStyles';
 
 const useStyles = makeStyles({
-  breadcrumb: { marginBottom: tokens.spacingVerticalL, marginInline: `calc(-1 * ${tokens.spacingHorizontalS})` },
+  breadcrumb: {
+    marginBottom: tokens.spacingVerticalL,
+    marginInline: `calc(-1 * ${tokens.spacingHorizontalS})`,
+    // Fluent breadcrumbs never wrap; long section titles would overflow at 320px.
+    '& ol': { flexWrap: 'wrap' },
+  },
   pager: {
     display: 'flex',
     justifyContent: 'space-between',
@@ -38,6 +45,7 @@ export function ReaderPage() {
   const { chapterNumber, chapterSlug, sectionSlug } = useParams();
   const chapter = findChapter(chapterNumber);
   const section = chapter && findSection(chapter, sectionSlug);
+  const content = useSectionContent(section?.id);
   useDocumentTitle(section ? `${section.number} ${section.title}` : 'Page not found');
 
   if (!chapter || !section) return <NotFoundPage />;
@@ -78,12 +86,15 @@ export function ReaderPage() {
         <Title1 as="h1" className={page.title}>
           {section.title}
         </Title1>
+        {section.description && (
+          <Body1 as="p" className={page.lead}>
+            {section.description}
+          </Body1>
+        )}
+        <SectionMeta section={section} />
       </header>
 
-      {/* Markdown rendering is Phase 3/4. */}
-      <MessageBar intent="info">
-        <MessageBarBody>Section content will appear here once the handbook import is in place.</MessageBarBody>
-      </MessageBar>
+      <SectionOutline state={content} />
 
       <nav className={styles.pager} aria-label="Section navigation">
         {previous ? (
