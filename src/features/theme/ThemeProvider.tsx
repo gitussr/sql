@@ -1,5 +1,6 @@
-import { FluentProvider, makeStyles, tokens } from '@fluentui/react-components';
+import { FluentProvider, makeStyles, mergeClasses, tokens } from '@fluentui/react-components';
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
+import { codeCssVariables } from './codeColors';
 import { localStore } from '../../lib/storage/localStore';
 import { useMediaQuery } from '../../lib/utils/useMediaQuery';
 import { readThemePreference, resolveTheme, THEME_STORAGE_KEY, type ResolvedTheme, type ThemePreference } from './themePreference';
@@ -19,6 +20,9 @@ const useStyles = makeStyles({
     backgroundColor: tokens.colorNeutralBackground1,
     color: tokens.colorNeutralForeground1,
   },
+  // Syntax colours are not Fluent tokens; expose them as custom properties per theme.
+  lightCode: codeCssVariables('light'),
+  darkCode: codeCssVariables('dark'),
 });
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
@@ -42,7 +46,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 
   return (
     <ThemeContext.Provider value={value}>
-      <FluentProvider theme={theme} className={styles.root} applyStylesToPortals>
+      <FluentProvider theme={theme} className={mergeClasses(styles.root, resolved === 'dark' ? styles.darkCode : styles.lightCode)} applyStylesToPortals>
         {children}
       </FluentProvider>
     </ThemeContext.Provider>
