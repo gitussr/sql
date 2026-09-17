@@ -136,6 +136,21 @@ describe('section structure', () => {
     expect(new Set(ids).size).toBe(ids.length);
   });
 
+  it('never skips heading levels, keeping text and order', () => {
+    const handbook = buildHandbook(
+      [overviewFile(), sectionFile('05.01', 'A', '# Common Mistakes\n\n### Mistake 1\n\nText.\n\n#### Detail\n\n### Mistake 2\n\nText.')],
+      config,
+    );
+    const content = handbook.sections.get('05.01')!;
+    const headings = content.blocks[0]!.children.filter((n) => n.type === 'heading');
+    expect(headings.map((h) => [h.depth, h.data?.id])).toEqual([
+      [3, 'mistake-1'],
+      [4, 'detail'],
+      [3, 'mistake-2'],
+    ]);
+    expect(content.outline.filter((e) => e.depth === 3).map((e) => e.id)).toEqual(['mistake-1', 'mistake-2']);
+  });
+
   it('renders raw HTML-like text literally', () => {
     const { content } = build();
     const paragraph = byTitle(content.blocks, 'Basic Syntax').children[0];

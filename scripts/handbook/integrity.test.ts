@@ -46,10 +46,18 @@ function tally(node: unknown, counts: Counts = { heading: 0, code: 0, table: 0, 
     case 'aside':
       counts.blockquote += 1;
       break;
-    case 'code':
+    case 'code': {
       counts.code += 1;
       counts.codeCharacters += record.value!.length;
+      if (record.value!.includes('\r')) throw new Error('Code block contains CR line endings; imports must be OS-independent.');
+      // Highlighting must never alter code: the segments must spell out the source exactly.
+      const highlight = (record as { data?: { highlight?: (string | [string, string])[] } }).data?.highlight;
+      if (highlight) {
+        const text = highlight.map((s) => (typeof s === 'string' ? s : s[0])).join('');
+        if (text !== record.value) throw new Error(`Highlighted code differs from source:\n${record.value}`);
+      }
       break;
+    }
     case 'executionOrder':
       counts.code += 1;
       counts.codeCharacters += record.source!.length;

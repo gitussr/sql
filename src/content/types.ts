@@ -73,6 +73,26 @@ export type BlockKind =
   | 'related-topics'
   | 'summary';
 
+/**
+ * Syntax token kinds: keyword, string, number, boolean/constant, comment,
+ * function, type, operator, punctuation, variable/identifier.
+ */
+export type TokenKind = 'k' | 's' | 'n' | 'b' | 'c' | 'f' | 't' | 'o' | 'p' | 'v';
+
+/** Plain text, or `[text, kind]` for a highlighted token. */
+export type HighlightSegment = string | [text: string, kind: TokenKind];
+
+declare module 'mdast' {
+  interface CodeData {
+    /** Build-time syntax highlighting; joining the segments reproduces `value`. */
+    highlight?: HighlightSegment[];
+  }
+  interface HeadingData {
+    /** Anchor id. */
+    id?: string;
+  }
+}
+
 export interface ExecutionStep {
   /** Clause label exactly as authored, e.g. "LIMIT / FETCH / TOP". */
   label: string;

@@ -37,7 +37,9 @@ export function readHandbookFiles(directory: string): SourceFile[] {
   return readdirSync(directory)
     .filter((name) => name.startsWith('Chapter') && name.endsWith('.md'))
     .sort()
-    .map((name) => ({ name, text: readFileSync(join(directory, name), 'utf8') }));
+    // Normalise line endings: Windows checkouts (core.autocrlf) would otherwise put \r\n into
+    // code blocks, making builds differ by OS and copied code carry CRLF.
+    .map((name) => ({ name, text: readFileSync(join(directory, name), 'utf8').replace(/\r\n?/g, '\n') }));
 }
 
 export function loadHandbook(directory: string, config: HandbookConfig = handbookConfig): Handbook {

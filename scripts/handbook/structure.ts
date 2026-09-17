@@ -13,6 +13,7 @@ import type {
 import { KNOWN_CODE_LANGUAGES } from './config.ts';
 import type { Diagnostic, DiagnosticRule } from './diagnostics.ts';
 import { parseExecutionSteps } from './executionOrder.ts';
+import { canHighlight, highlightCode } from './highlight.ts';
 import { createSlugger, toPlainText } from './text.ts';
 
 const CALLOUTS: Record<string, CalloutVariant> = {
@@ -73,7 +74,7 @@ export function buildSectionContent(tree: Root, context: StructureContext): { co
   for (const group of groupByTopLevelHeading(tree.children)) {
     const children = trimSeparators(group.children);
     if (!group.heading) {
-      if (children.length > 0) blocks.push({ kind: 'prose', children: transformChildren(children, slug, outline) });
+      if (children.length > 0) blocks.push({ kind: 'prose', children: normalizeHeadings(transformChildren(children, slug), 1, outline) });
       continue;
     }
 
@@ -105,7 +106,7 @@ export function buildSectionContent(tree: Root, context: StructureContext): { co
       }
     }
 
-    block.children = transformChildren(body, slug, outline);
+    block.children = normalizeHeadings(transformChildren(body, slug), 2, outline);
 
     if (block.kind === 'execution-order') {
       let converted = 0;
@@ -149,22 +150,43 @@ function splitIcon(text: string): { icon?: string; title: string } {
   return match ? { icon: match[1]!, title: match[2]!.trim() } : { title: text };
 }
 
-function transformChildren(nodes: RootContent[], slug: (text: string) => string, outline: OutlineEntry[]): ContentNode[] {
-  return nodes.map((node) => transformNode(node, slug, outline));
+function transformChildren(nodes: RootContent[], slug: (text: string) => string): ContentNode[] {
+  return nodes.map((node) => transformNode(node, slug));
 }
 
-function transformNode(node: RootContent, slug: (text: string) => string, outline: OutlineEntry[]): ContentNode {
+/**
+ * Clamps heading levels so they never skip (e.g. '# Common Mistakes' followed by
+ * '### Mistake 1' would jump from h2 to h4), then records subsection headings in
+ * the outline. Heading text and order are unchanged.
+ */
+function normalizeHeadings(nodes: ContentNode[], parentDepth: number, outline: OutlineEntry[]): ContentNode[] {
+  // Open ancestors as [authored depth, output depth]; siblings keep equal levels.
+  const stack: [number, number][] = [];
+  return nodes.map((node) => {
+    if (node.type !== 'heading') return node;
+    while (stack.length > 0 && stack.at(-1)![0] >= node.depth) stack.pop();
+    const depth = Math.min((stack.at(-1)?.[1] ?? parentDepth) + 1, 6) as Heading['depth'];
+    stack.push([node.depth, depth]);
+    if (depth === 3) outline.push({ id: node.data!.id!, title: toPlainText(node).trim(), depth });
+    return depth === node.depth ? node : { ...node, depth };
+  });
+}
+
+function transformNode(node: RootContent, slug: (text: string) => string): ContentNode {
   if (node.type === 'heading') {
     const title = toPlainText(node).trim();
     const id = slug(title);
     const depth = Math.min(node.depth + 1, 6) as Heading['depth'];
-    if (depth === 3) outline.push({ id, title, depth });
     return { ...node, depth, data: { ...node.data, id } } as Heading;
   }
 
   if (node.type === 'blockquote') {
-    const aside = toAside(node, slug, outline);
+    const aside = toAside(node, slug);
     if (aside) return aside;
+  }
+
+  if (node.type === 'code' && canHighlight(node.lang)) {
+    return { ...node, data: { ...node.data, highlight: highlightCode(node.value, node.lang) } };
   }
 
   if (node.type === 'html') {
@@ -175,14 +197,14 @@ function transformNode(node: RootContent, slug: (text: string) => string, outlin
   if ('children' in node && Array.isArray(node.children)) {
     return {
       ...node,
-      children: (node.children as RootContent[]).map((child) => transformNode(child, slug, outline)),
+      children: (node.children as RootContent[]).map((child) => transformNode(child, slug)),
     } as ContentNode;
   }
   return node;
 }
 
 /** `> **Label:** text` becomes an aside labelled "Label". */
-function toAside(node: Blockquote, slug: (text: string) => string, outline: OutlineEntry[]): AsideNode | undefined {
+function toAside(node: Blockquote, slug: (text: string) => string): AsideNode | undefined {
   const [first, ...rest] = node.children;
   if (first?.type !== 'paragraph') return undefined;
   const [lead, ...inline] = first.children;
@@ -192,7 +214,7 @@ function toAside(node: Blockquote, slug: (text: string) => string, outline: Outl
 
   const remaining = trimLeadingWhitespace(inline);
   const children: RootContent[] = remaining.length > 0 ? [{ ...first, children: remaining } as Paragraph, ...rest] : rest;
-  return { type: 'aside', label: label.slice(0, -1).trim(), children: transformChildren(children, slug, outline) };
+  return { type: 'aside', label: label.slice(0, -1).trim(), children: transformChildren(children, slug) };
 }
 
 function trimLeadingWhitespace(nodes: PhrasingContent[]): PhrasingContent[] {
