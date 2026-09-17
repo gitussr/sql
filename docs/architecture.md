@@ -142,3 +142,31 @@ Reading text is 16px with a 1.7 line height in a 760px column. Headings step 24/
 - Headless Chrome at 320/375/768/1280/1440px, light and dark: no page-level horizontal overflow (wide code and tables scroll inside their containers), no console errors.
 - Copy verified with a real click: the clipboard receives the code exactly (Windows converts to CRLF on the clipboard itself).
 - axe-core (WCAG 2.0–2.2 A/AA plus best practices) on 05.07, 05.11 and the chapter page, both themes, desktop and mobile: no contrast, landmark, heading-order or target-size violations. The one remaining report, `aria-hidden-focus`, is Fluent's Tabster focus sentinels (`data-tabster-dummy`) inside `NavDrawerBody`, not app markup.
+
+## Phase 5 — Navigation
+
+### Reading sequence
+
+`readingSequence()` defines one linear order: each available chapter's introduction, then its sections (coming-soon chapters are skipped). Previous/next on section and chapter pages, and the keyboard shortcuts, all follow it, so 05.01's "Previous" is the Chapter 05 introduction.
+
+### Components
+
+| Component | Purpose |
+| --- | --- |
+| `PageBreadcrumb` | `SQL Guide › Chapter 05 › SELECT Statement › 05.11 …`. "Chapter 05" links to the chapter's entry in the full list; below 640px only `Chapter 05 › SELECT Statement` is shown (the section title is the page heading). |
+| `SequencePager` | Previous / Contents / Next. Links carry `rel="prev"/"next"` and `aria-keyshortcuts`; a key hint appears only on devices with a fine pointer. |
+| `ReadingLayout` + `CollapsibleOutline` | Shared by section and chapter pages: 760px column, sticky "On this page" at ≥1400px, collapsible outline below. |
+| `ChaptersPage` | Expand/collapse per chapter, filter by number or title ("05.11", "5.11", "distinct", "chapter 5") with highlighted matches, result count announced via `role="status"`, empty state with a clear action. |
+| `HandbookNav` | Categories are controlled: the current chapter always opens when you navigate into it, and the current page is scrolled into view. |
+
+Chapter pages gained the breadcrumb, a "Start with 05.01" action, "On this page" (Sections + introduction headings) and previous/next.
+
+### Keyboard shortcuts
+
+`n` next, `p` previous. They never fire with Ctrl/Alt/⌘, while composing text, or when focus is in an input, textarea, contenteditable, menu, list box, combo box or dialog (`shouldHandleShortcut`, unit tested). They are optional: every action has a visible control.
+
+### Verification
+
+Type checks and 126 tests pass (reading sequence, filter, shortcut guard, breadcrumb/pager rendering on chapter and section pages).
+
+**Not yet verified in a browser.** The production build failed with native out-of-memory errors because the machine had ~500 MB of commit memory free. Pending checks: filter typing and highlighting, `n`/`p` navigation (and not firing while typing), sidebar auto-scroll, `/chapters#chapter-06` deep link, compact mobile breadcrumb, axe on the chapter list. The script is ready to run once memory is available.
