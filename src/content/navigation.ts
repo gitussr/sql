@@ -1,4 +1,4 @@
-import { chapters as defaultChapters } from './chapters';
+import { chapters as defaultChapters } from './handbook';
 import type { Chapter, Section } from './types';
 
 export interface SectionEntry {

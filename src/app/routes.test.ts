@@ -1,6 +1,6 @@
 import { matchRoutes } from 'react-router';
 import { describe, expect, it } from 'vitest';
-import { chapters } from '../content/chapters';
+import { chapters } from '../content/handbook';
 import { chapterPath, readingOrder, sectionPath } from '../content/navigation';
 import { routes } from './routes';
 

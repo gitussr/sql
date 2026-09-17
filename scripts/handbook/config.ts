@@ -1,0 +1,42 @@
+/**
+ * Which chapters the app publishes.
+ *
+ * `available` chapters are imported from the handbook Markdown: title, slug and
+ * description come from the chapter's "Chapter NN - Title" file and must not be
+ * repeated here. `coming-soon` chapters have no content yet, so their title is
+ * declared here.
+ */
+export type ChapterConfig =
+  | { number: string; status: 'available' }
+  | { number: string; status: 'coming-soon'; title: string };
+
+export interface HandbookConfig {
+  chapters: ChapterConfig[];
+}
+
+export const handbookConfig: HandbookConfig = {
+  chapters: [
+    { number: '05', status: 'available' },
+    { number: '06', status: 'coming-soon', title: 'WHERE Clause' },
+  ],
+};
+
+/** Code block languages the reader knows how to label/highlight. */
+export const KNOWN_CODE_LANGUAGES = new Set([
+  'sql',
+  'text',
+  'plaintext',
+  'json',
+  'ts',
+  'typescript',
+  'js',
+  'javascript',
+  'md',
+  'markdown',
+  'http',
+  'python',
+  'c',
+  'bash',
+  'shell',
+  'mermaid',
+]);

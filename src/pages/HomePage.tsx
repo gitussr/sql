@@ -1,7 +1,7 @@
 import { Badge, Body1, Button, Caption1, Divider, makeStyles, Subtitle1, Title1, tokens } from '@fluentui/react-components';
 import { ArrowRight20Regular } from '@fluentui/react-icons';
 import { Link, useNavigate } from 'react-router';
-import { chapters } from '../content/chapters';
+import { chapters } from '../content/handbook';
 import { chapterPath, readingOrder, sectionPath } from '../content/navigation';
 import { useDocumentTitle } from '../lib/utils/useDocumentTitle';
 import { usePageStyles } from './pageStyles';

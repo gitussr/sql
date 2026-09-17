@@ -1,7 +1,7 @@
 import { Badge, Body1, makeStyles, Subtitle1, Title1, tokens } from '@fluentui/react-components';
 import { Link } from 'react-router';
 import { SectionList } from '../components/navigation/SectionList';
-import { chapters } from '../content/chapters';
+import { chapters } from '../content/handbook';
 import { chapterPath } from '../content/navigation';
 import { useDocumentTitle } from '../lib/utils/useDocumentTitle';
 import { usePageStyles } from './pageStyles';

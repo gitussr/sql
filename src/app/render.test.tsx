@@ -35,7 +35,7 @@ describe('page rendering', () => {
   it('renders a section with breadcrumb and previous/next', () => {
     const html = render('/chapter/05/select-statement/05-11-from-clause-deep-dive');
     expect(html).toContain('FROM Clause (Deep Dive)');
-    expect(html).toContain('/chapter/05/select-statement/05-10-select-into-variables');
+    expect(html).toContain('/chapter/05/select-statement/05-10-select-into-variables-dbms-differences');
     expect(html).toContain('/chapter/05/select-statement/05-12-execution-flow-of-select');
   });
 

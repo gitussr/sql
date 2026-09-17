@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { chapters } from './chapters';
+import { chapters } from './handbook';
 import { adjacentSections, chapterPath, findChapter, findSection, readingOrder, sectionPath } from './navigation';
 
 describe('handbook structure', () => {

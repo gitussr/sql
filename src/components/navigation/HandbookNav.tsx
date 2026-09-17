@@ -1,5 +1,7 @@
 import {
   Hamburger,
+  makeStyles,
+  mergeClasses,
   NavCategory,
   NavCategoryItem,
   NavDrawer,
@@ -9,14 +11,24 @@ import {
   NavSectionHeader,
   NavSubItem,
   NavSubItemGroup,
+  tokens,
   Tooltip,
   type NavDrawerProps,
 } from '@fluentui/react-components';
 import { BookOpen20Filled, BookOpen20Regular, bundleIcon, Home20Filled, Home20Regular } from '@fluentui/react-icons';
 import type { MouseEvent } from 'react';
 import { useLocation, useNavigate } from 'react-router';
-import { chapters } from '../../content/chapters';
+import { chapters } from '../../content/handbook';
 import { chapterPath, sectionPath } from '../../content/navigation';
+
+const useStyles = makeStyles({
+  // Fluent's nav surface (and its items) use colorNeutralBackground4, which is #0a0a0a in
+  // dark mode. Remap the token for this subtree so the panel stays clearly off-black.
+  root: {
+    '--colorNeutralBackground4': tokens.colorNeutralBackground3,
+    backgroundColor: tokens.colorNeutralBackground3,
+  },
+});
 
 const HomeIcon = bundleIcon(Home20Filled, Home20Regular);
 const ChaptersIcon = bundleIcon(BookOpen20Filled, BookOpen20Regular);
@@ -30,6 +42,7 @@ interface HandbookNavProps {
 
 /** Handbook navigation tree, driven entirely by chapter metadata. */
 export function HandbookNav({ open, type, onOpenChange, className }: HandbookNavProps) {
+  const styles = useStyles();
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const currentChapter = pathname.match(/^\/chapter\/(\d+)/)?.[1];
@@ -49,7 +62,7 @@ export function HandbookNav({ open, type, onOpenChange, className }: HandbookNav
       selectedValue={decodeURI(pathname)}
       defaultOpenCategories={currentChapter ? [currentChapter] : ['05']}
       onOpenChange={(_, data) => onOpenChange(data.open)}
-      className={className}
+      className={mergeClasses(styles.root, className)}
       aria-label="Handbook navigation"
     >
       {type === 'overlay' && (
