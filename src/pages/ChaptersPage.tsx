@@ -20,7 +20,7 @@ export function ChaptersPage() {
   useDocumentTitle('All chapters');
 
   return (
-    <>
+    <div className={page.container}>
       <header className={page.header}>
         <Title1 as="h1" className={page.title}>
           All chapters
@@ -48,6 +48,6 @@ export function ChaptersPage() {
           )}
         </section>
       ))}
-    </>
+    </div>
   );
 }

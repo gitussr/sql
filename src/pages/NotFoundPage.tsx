@@ -9,7 +9,7 @@ export function NotFoundPage() {
   useDocumentTitle('Page not found');
 
   return (
-    <header className={page.header}>
+    <header className={`${page.header} ${page.container}`}>
       <Title1 as="h1" className={page.title}>
         Page not found
       </Title1>

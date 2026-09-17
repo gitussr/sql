@@ -22,6 +22,10 @@ export function findSection(chapter: Chapter, slug: string | undefined): Section
   return chapter.sections.find((s) => s.slug === slug);
 }
 
+export function findSectionById(id: string, source: Chapter[] = defaultChapters): SectionEntry | undefined {
+  return readingOrder(source).find((entry) => entry.section.id === id);
+}
+
 /** All sections in reading order, across chapters. */
 export function readingOrder(source: Chapter[] = defaultChapters): SectionEntry[] {
   return source.flatMap((chapter) => chapter.sections.map((section) => ({ chapter, section })));

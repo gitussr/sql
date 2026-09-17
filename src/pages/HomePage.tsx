@@ -34,7 +34,7 @@ export function HomePage() {
   const first = readingOrder()[0];
 
   return (
-    <>
+    <div className={page.container}>
       <header className={page.header}>
         <Title1 as="h1" className={page.title}>
           SQL Guide
@@ -80,6 +80,6 @@ export function HomePage() {
           ))}
         </ul>
       </section>
-    </>
+    </div>
   );
 }

@@ -2,6 +2,8 @@ import { makeStyles, tokens } from '@fluentui/react-components';
 
 /** Shared vertical rhythm for top-level pages. */
 export const usePageStyles = makeStyles({
+  /** Reading width for non-reader pages (matches the reader column). */
+  container: { maxWidth: '760px', marginInline: 'auto' },
   header: {
     display: 'flex',
     flexDirection: 'column',

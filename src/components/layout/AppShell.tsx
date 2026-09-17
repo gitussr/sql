@@ -53,8 +53,9 @@ const useStyles = makeStyles({
     paddingInline: tokens.spacingHorizontalL,
     '@media (min-width: 768px)': { paddingInline: tokens.spacingHorizontalXXXL },
   },
+  // Pages set their own reading width; the reader widens for its "On this page" column.
   content: {
-    maxWidth: '780px',
+    maxWidth: '1040px',
     marginInline: 'auto',
   },
 });
