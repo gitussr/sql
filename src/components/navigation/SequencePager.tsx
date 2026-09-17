@@ -2,7 +2,7 @@ import { Body1, Button, Caption1, makeStyles, mergeClasses, tokens } from '@flue
 import { ArrowLeft16Regular, ArrowRight16Regular, TextBulletListLtr20Regular } from '@fluentui/react-icons';
 import type { MouseEvent } from 'react';
 import { Link, useNavigate } from 'react-router';
-import { entryLabel, entryPath, type SequenceEntry } from '../../content/navigation';
+import { entryLabel, entryPath, hrefFor, type SequenceEntry } from '../../content/navigation';
 import { useKeyboardShortcuts } from '../../lib/utils/shortcuts';
 
 const useStyles = makeStyles({
@@ -68,7 +68,7 @@ export function SequencePager({ previous, next, contents }: SequencePagerProps) 
   return (
     <nav className={styles.root} aria-label="Reading sequence">
       {previous && <PagerLink entry={previous} direction="previous" />}
-      <Button as="a" appearance="subtle" href={contents.href} onClick={onContents} icon={<TextBulletListLtr20Regular />} className={styles.contents}>
+      <Button as="a" appearance="subtle" href={hrefFor(contents.href)} onClick={onContents} icon={<TextBulletListLtr20Regular />} className={styles.contents}>
         {contents.label}
       </Button>
       {next && <PagerLink entry={next} direction="next" />}

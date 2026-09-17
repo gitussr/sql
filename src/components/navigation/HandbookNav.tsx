@@ -19,7 +19,7 @@ import { BookOpen20Filled, BookOpen20Regular, bundleIcon, Home20Filled, Home20Re
 import { useEffect, useState, type MouseEvent } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 import { chapters } from '../../content/handbook';
-import { chapterPath, sectionPath } from '../../content/navigation';
+import { chapterPath, hrefFor, sectionPath } from '../../content/navigation';
 
 const useStyles = makeStyles({
   // Fluent's nav surface (and its items) use colorNeutralBackground4, which is #0a0a0a in
@@ -97,10 +97,10 @@ export function HandbookNav({ open, type, onOpenChange, className }: HandbookNav
         </NavDrawerHeader>
       )}
       <NavDrawerBody>
-        <NavItem href="/" value="/" icon={<HomeIcon />} onClick={go('/')}>
+        <NavItem href={hrefFor('/')} value="/" icon={<HomeIcon />} onClick={go('/')}>
           Home
         </NavItem>
-        <NavItem href="/chapters" value="/chapters" icon={<ChaptersIcon />} onClick={go('/chapters')}>
+        <NavItem href={hrefFor('/chapters')} value="/chapters" icon={<ChaptersIcon />} onClick={go('/chapters')}>
           All chapters
         </NavItem>
 
@@ -109,7 +109,7 @@ export function HandbookNav({ open, type, onOpenChange, className }: HandbookNav
           const path = chapterPath(chapter);
           if (chapter.sections.length === 0) {
             return (
-              <NavItem key={chapter.number} href={path} value={path} onClick={go(path)}>
+              <NavItem key={chapter.number} href={hrefFor(path)} value={path} onClick={go(path)}>
                 {chapter.number} {chapter.title} · Coming soon
               </NavItem>
             );
@@ -120,13 +120,13 @@ export function HandbookNav({ open, type, onOpenChange, className }: HandbookNav
                 {chapter.number} {chapter.title}
               </NavCategoryItem>
               <NavSubItemGroup>
-                <NavSubItem href={path} value={path} onClick={go(path)}>
+                <NavSubItem href={hrefFor(path)} value={path} onClick={go(path)}>
                   Introduction
                 </NavSubItem>
                 {chapter.sections.map((section) => {
                   const sectionHref = sectionPath(chapter, section);
                   return (
-                    <NavSubItem key={section.id} href={sectionHref} value={sectionHref} onClick={go(sectionHref)}>
+                    <NavSubItem key={section.id} href={hrefFor(sectionHref)} value={sectionHref} onClick={go(sectionHref)}>
                       {section.number} {section.title}
                     </NavSubItem>
                   );

@@ -6,7 +6,8 @@ import { routes } from './app/routes';
 import { ThemeProvider } from './features/theme/ThemeProvider';
 import './styles/global.css';
 
-const router = createBrowserRouter(routes);
+// BASE_URL is "/" for root deploys and "/<repo>/" on GitHub Pages project sites.
+const router = createBrowserRouter(routes, { basename: import.meta.env.BASE_URL });
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

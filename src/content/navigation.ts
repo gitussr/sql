@@ -76,3 +76,13 @@ export function adjacentEntries(
   if (index === -1) return { previous: undefined, next: undefined };
   return { previous: sequence[index - 1], next: sequence[index + 1] };
 }
+
+/**
+ * A routed path as a real URL. React Router resolves `to` against the router
+ * basename itself; plain `href` attributes have to be prefixed by hand so they
+ * stay correct when the app is served from a sub-path (GitHub Pages).
+ */
+export function hrefFor(path: string): string {
+  const base = import.meta.env.BASE_URL;
+  return base === '/' ? path : `${base.replace(/\/$/, '')}${path}`;
+}

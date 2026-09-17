@@ -1,6 +1,7 @@
 import { Breadcrumb, BreadcrumbButton, BreadcrumbDivider, BreadcrumbItem, makeStyles, mergeClasses, tokens } from '@fluentui/react-components';
 import { Fragment, type MouseEvent } from 'react';
 import { useNavigate } from 'react-router';
+import { hrefFor } from '../../content/navigation';
 
 export interface Crumb {
   label: string;
@@ -41,7 +42,7 @@ export function PageBreadcrumb({ items }: { items: Crumb[] }) {
             {index > 0 && <BreadcrumbDivider className={mergeClasses(hidden, firstVisibleOnNarrow && styles.hideNarrow)} />}
             <BreadcrumbItem className={hidden}>
               {crumb.href ? (
-                <BreadcrumbButton href={crumb.href} onClick={go(crumb.href)}>
+                <BreadcrumbButton href={hrefFor(crumb.href)} onClick={go(crumb.href)}>
                   {crumb.label}
                 </BreadcrumbButton>
               ) : (
