@@ -169,4 +169,12 @@ Chapter pages gained the breadcrumb, a "Start with 05.01" action, "On this page"
 
 Type checks and 126 tests pass (reading sequence, filter, shortcut guard, breadcrumb/pager rendering on chapter and section pages).
 
-**Not yet verified in a browser.** The production build failed with native out-of-memory errors because the machine had ~500 MB of commit memory free. Pending checks: filter typing and highlighting, `n`/`p` navigation (and not firing while typing), sidebar auto-scroll, `/chapters#chapter-06` deep link, compact mobile breadcrumb, axe on the chapter list. The script is ready to run once memory is available.
+Verified in headless Chrome on 2026-09-19 (once memory allowed a build): `n`/`p` navigate and do not fire with Ctrl or while typing in the filter; the sidebar scrolls the current section into view; `p` from 05.01 reaches the chapter introduction; the filter highlights matches, reports counts and shows the empty state; chapters collapse; the mobile breadcrumb shows `Chapter 05 › SELECT Statement` with no overflow. An axe run on the chapter list is still outstanding.
+
+## Content — Chapter 06
+
+Chapter 06 (WHERE Clause) was added on 2026-09-19: an introduction plus sections 06.01–06.14, written in the Chapter 05 format (frontmatter, callouts, Execution Order Reminder, vendor table, mistakes, interview questions, exercises, related topics). It is published in `scripts/handbook/config.ts`; Chapter 07 (JOINs) is now the "coming soon" chapter.
+
+- Validation: 0 errors and no Chapter 06 warnings (every code block has a language; every related topic resolves or points to a future `xx` section).
+- Integrity and rendering tests now cover every published chapter, not only Chapter 05.
+- 06.08 provides the full three-valued-logic treatment that 05.08 defers to "the WHERE chapter".
