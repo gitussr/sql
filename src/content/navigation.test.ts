@@ -59,9 +59,11 @@ describe('navigation helpers', () => {
   it('reads each chapter introduction before its sections', () => {
     const keys = readingSequence().map(entryKey);
     expect(keys.slice(0, 3)).toEqual(['chapter:05', 'section:05.01', 'section:05.02']);
-    expect(keys.at(-1)).toBe('section:05.13');
+    // The next chapter's introduction follows the last section of the previous one.
+    expect(keys.slice(keys.indexOf('section:05.13'), keys.indexOf('section:05.13') + 3)).toEqual(['section:05.13', 'chapter:06', 'section:06.01']);
+    expect(keys.at(-1)).toBe('section:06.14');
     // Coming-soon chapters have nothing to read.
-    expect(keys).not.toContain('chapter:06');
+    expect(keys).not.toContain('chapter:07');
   });
 
   it('resolves previous and next entries', () => {
@@ -70,7 +72,9 @@ describe('navigation helpers', () => {
     expect(entryKey(adjacentEntries('section:05.01').previous!)).toBe('chapter:05');
     expect(entryKey(adjacentEntries('section:05.11').previous!)).toBe('section:05.10');
     expect(entryKey(adjacentEntries('section:05.11').next!)).toBe('section:05.12');
-    expect(adjacentEntries('section:05.13').next).toBeUndefined();
+    expect(entryKey(adjacentEntries('section:05.13').next!)).toBe('chapter:06');
+    expect(entryKey(adjacentEntries('chapter:06').previous!)).toBe('section:05.13');
+    expect(adjacentEntries('section:06.14').next).toBeUndefined();
   });
 
   it('labels and links sequence entries', () => {

@@ -93,11 +93,44 @@ describe('Chapter 05 import', () => {
     ]);
   });
 
+});
+
+describe('Chapter 06 import', () => {
+  it('imports the introduction and sections 06.01–06.14 with their exact titles', () => {
+    const chapter = handbook.chapters.find((c) => c.number === '06')!;
+    expect(chapter).toMatchObject({ title: 'WHERE Clause', slug: 'where-clause', status: 'available', hasOverview: true });
+    expect(chapter.sections.map((s) => `${s.number} ${s.title}`)).toEqual([
+      '06.01 Introduction to WHERE',
+      '06.02 WHERE Syntax',
+      '06.03 Comparison Operators',
+      '06.04 Logical Operators (AND, OR, NOT)',
+      '06.05 BETWEEN',
+      '06.06 IN and NOT IN',
+      '06.07 LIKE and Pattern Matching',
+      '06.08 NULL Handling in WHERE (Three-Valued Logic)',
+      '06.09 Filtering with Expressions and Functions',
+      '06.10 EXISTS and Subqueries in WHERE (Introduction)',
+      '06.11 Execution Flow of WHERE',
+      '06.12 SARGability and Index-Friendly Predicates',
+      '06.13 Common WHERE Mistakes & Best Practices',
+      '06.14 WHERE Cheat Sheet & Visual Knowledge Map',
+    ]);
+  });
+
+  it('produces no warnings of its own', () => {
+    expect(handbook.diagnostics.filter((d) => d.file?.startsWith('Chapter 06'))).toEqual([]);
+  });
+});
+
+describe('every published chapter', () => {
   const sources = new Map(files.map((f) => [f.name, f.text]));
-  const cases = [
-    ...chapter.sections.map((s) => ({ name: `${s.number}`, file: s.source, content: handbook.sections.get(s.id)! })),
-    { name: 'chapter introduction', file: 'Chapter Chapter 05 - SELECT Statement.md', content: handbook.overviews.get('05')! },
-  ];
+  const overviewFile = (number: string) => files.find((f) => new RegExp(`^Chapter (Chapter )?${number} - `).test(f.name))!.name;
+  const cases = handbook.chapters
+    .filter((chapter) => chapter.status === 'available')
+    .flatMap((chapter) => [
+      ...chapter.sections.map((s) => ({ name: `${s.number}`, file: s.source, content: handbook.sections.get(s.id)! })),
+      { name: `chapter ${chapter.number} introduction`, file: overviewFile(chapter.number), content: handbook.overviews.get(chapter.number)! },
+    ]);
 
   it.each(cases)('preserves every heading, code block, table, list and blockquote in $name', ({ file, content }) => {
     expect(countContent(content)).toEqual(countSource(sources.get(file)!));

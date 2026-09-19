@@ -17,7 +17,8 @@ export interface HandbookConfig {
 export const handbookConfig: HandbookConfig = {
   chapters: [
     { number: '05', status: 'available' },
-    { number: '06', status: 'coming-soon', title: 'WHERE Clause' },
+    { number: '06', status: 'available' },
+    { number: '07', status: 'coming-soon', title: 'JOINs' },
   ],
 };
 

@@ -33,12 +33,13 @@ function tally(content: SectionContent) {
   return counts;
 }
 
-describe('Chapter 05 renders completely', () => {
-  const sections = chapters.find((c) => c.number === '05')!.sections;
-  const cases = [
-    ...sections.map((s) => ({ name: s.number, load: () => loadSectionContent(s.id) })),
-    { name: 'chapter introduction', load: () => loadChapterOverview('05') },
-  ];
+describe('every published chapter renders completely', () => {
+  const cases = chapters
+    .filter((chapter) => chapter.status === 'available')
+    .flatMap((chapter) => [
+      ...chapter.sections.map((s) => ({ name: s.number, load: () => loadSectionContent(s.id) })),
+      { name: `chapter ${chapter.number} introduction`, load: () => loadChapterOverview(chapter.number) },
+    ]);
 
   it.each(cases)('$name', async ({ load }) => {
     const content = await load();
