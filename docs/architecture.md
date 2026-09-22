@@ -178,3 +178,12 @@ Chapter 06 (WHERE Clause) was added on 2026-09-19: an introduction plus sections
 - Validation: 0 errors and no Chapter 06 warnings (every code block has a language; every related topic resolves or points to a future `xx` section).
 - Integrity and rendering tests now cover every published chapter, not only Chapter 05.
 - 06.08 provides the full three-valued-logic treatment that 05.08 defers to "the WHERE chapter".
+
+## Content — Chapter 07
+
+Chapter 07 (JOINs) was added on 2026-09-22: an introduction plus sections 07.01–07.17, in the same format as Chapters 05 and 06. It covers the join family (inner, left, right, full, cross, self, natural/USING), multi-table joins, `ON` vs `WHERE`, `NULL` behaviour, semi-/anti-joins, join algorithms, index strategy, a mistakes catalogue and a cheat sheet. It is published in `scripts/handbook/config.ts`; Chapter 08 (GROUP BY and HAVING) is now the "coming soon" chapter.
+
+- Validation: 0 errors and no Chapter 07 warnings (every code block has a language; every related topic resolves or points to a future `xx` section).
+- Typecheck, 237 tests and a production build pass; the build emits 17 section chunks plus the chapter overview.
+- 07.11 (ON vs WHERE) and 07.12 (NULL Handling in JOINs) carry the three-valued-logic thread from 06.08 into outer joins; 07.13 continues the `EXISTS` introduction from 06.10.
+- Chapter 07 sections are the first to be referenced by a later chapter placeholder (`08.xx — GROUP BY and HAVING`).
