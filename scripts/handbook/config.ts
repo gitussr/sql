@@ -18,7 +18,8 @@ export const handbookConfig: HandbookConfig = {
   chapters: [
     { number: '05', status: 'available' },
     { number: '06', status: 'available' },
-    { number: '07', status: 'coming-soon', title: 'JOINs' },
+    { number: '07', status: 'available' },
+    { number: '08', status: 'coming-soon', title: 'GROUP BY and HAVING' },
   ],
 };
 

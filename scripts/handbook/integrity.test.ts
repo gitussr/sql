@@ -122,6 +122,36 @@ describe('Chapter 06 import', () => {
   });
 });
 
+describe('Chapter 07 import', () => {
+  it('imports the introduction and sections 07.01–07.17 with their exact titles', () => {
+    const chapter = handbook.chapters.find((c) => c.number === '07')!;
+    expect(chapter).toMatchObject({ title: 'JOINs', slug: 'joins', status: 'available', hasOverview: true });
+    expect(chapter.sections.map((s) => `${s.number} ${s.title}`)).toEqual([
+      '07.01 Introduction to JOINs',
+      '07.02 JOIN Syntax',
+      '07.03 INNER JOIN',
+      '07.04 LEFT JOIN (LEFT OUTER JOIN)',
+      '07.05 RIGHT JOIN (RIGHT OUTER JOIN)',
+      '07.06 FULL OUTER JOIN',
+      '07.07 CROSS JOIN',
+      '07.08 SELF JOIN',
+      '07.09 NATURAL JOIN and USING',
+      '07.10 Joining Multiple Tables',
+      '07.11 ON vs WHERE (Join Conditions and Filters)',
+      '07.12 NULL Handling in JOINs',
+      '07.13 Semi-Joins and Anti-Joins (EXISTS and NOT EXISTS)',
+      '07.14 Execution Flow of JOINs (Join Algorithms)',
+      '07.15 JOIN Performance and Index Strategy',
+      '07.16 Common JOIN Mistakes & Best Practices',
+      '07.17 JOIN Cheat Sheet & Visual Knowledge Map',
+    ]);
+  });
+
+  it('produces no warnings of its own', () => {
+    expect(handbook.diagnostics.filter((d) => d.file?.startsWith('Chapter 07'))).toEqual([]);
+  });
+});
+
 describe('every published chapter', () => {
   const sources = new Map(files.map((f) => [f.name, f.text]));
   const overviewFile = (number: string) => files.find((f) => new RegExp(`^Chapter (Chapter )?${number} - `).test(f.name))!.name;
