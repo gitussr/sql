@@ -187,3 +187,13 @@ Chapter 07 (JOINs) was added on 2026-09-22: an introduction plus sections 07.01�
 - Typecheck, 237 tests and a production build pass; the build emits 17 section chunks plus the chapter overview.
 - 07.11 (ON vs WHERE) and 07.12 (NULL Handling in JOINs) carry the three-valued-logic thread from 06.08 into outer joins; 07.13 continues the `EXISTS` introduction from 06.10.
 - Chapter 07 sections are the first to be referenced by a later chapter placeholder (`08.xx — GROUP BY and HAVING`).
+
+## Content — Chapter 08
+
+Chapter 08 (GROUP BY and HAVING) was added on 2026-09-24: an introduction plus sections 08.01–08.17, in the same format as Chapters 05–07. It covers aggregate functions, `COUNT` forms, `NULL` in aggregates, `GROUP BY` semantics, grouping on several columns and expressions, the SELECT list rule and functional dependency, `HAVING`, `WHERE` vs `HAVING`, conditional aggregation, aggregating across joins (fan and chasm traps), `ROLLUP`/`CUBE`/`GROUPING SETS`, string/percentile/statistical aggregates, hash and stream aggregation, index strategy, a mistakes catalogue and a cheat sheet. It is published in `scripts/handbook/config.ts`; Chapter 09 (Subqueries) is now the "coming soon" chapter.
+
+- Validation: 0 errors and no Chapter 08 warnings (every code block has a language; every related topic resolves or points to a future `xx` section).
+- Typecheck, 293 tests and a production build pass; the build emits 17 section chunks plus the chapter overview.
+- The chapter reuses the Chapter 07 sample schema, adding `Orders.Status`, `Products.ListPrice`, `Departments`, and `Employees.Salary`/`HireDate`.
+- Chapter 09 is titled "Subqueries" to match the `09.xx — Subqueries` placeholders used since Chapter 06. Chapter 05 also has `09.xx — CASE Expressions` placeholders, so CASE will need a chapter number of its own.
+- The chapter filter now matches Chapter 08 sections for "NULL handling" (08.04) and "joins" (08.11); `filterChapters.test.ts` covers both.
