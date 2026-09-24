@@ -152,6 +152,36 @@ describe('Chapter 07 import', () => {
   });
 });
 
+describe('Chapter 08 import', () => {
+  it('imports the introduction and sections 08.01–08.17 with their exact titles', () => {
+    const chapter = handbook.chapters.find((c) => c.number === '08')!;
+    expect(chapter).toMatchObject({ title: 'GROUP BY and HAVING', slug: 'group-by-and-having', status: 'available', hasOverview: true });
+    expect(chapter.sections.map((s) => `${s.number} ${s.title}`)).toEqual([
+      '08.01 Introduction to Aggregation and Grouping',
+      '08.02 Aggregate Functions (COUNT, SUM, AVG, MIN, MAX)',
+      '08.03 COUNT Variants',
+      '08.04 NULL Handling in Aggregates',
+      '08.05 GROUP BY Syntax and Semantics',
+      '08.06 Grouping by Multiple Columns and Expressions',
+      '08.07 The SELECT List Rule (Functional Dependency)',
+      '08.08 HAVING',
+      '08.09 WHERE vs HAVING',
+      '08.10 Conditional Aggregation (FILTER and CASE)',
+      '08.11 Aggregating Across JOINs (Fan-Out and Pre-Aggregation)',
+      '08.12 ROLLUP, CUBE and GROUPING SETS',
+      '08.13 Advanced Aggregate Functions (STRING_AGG, Percentiles and Statistics)',
+      '08.14 Execution Flow of GROUP BY (Hash and Stream Aggregation)',
+      '08.15 GROUP BY Performance and Index Strategy',
+      '08.16 Common GROUP BY Mistakes & Best Practices',
+      '08.17 GROUP BY Cheat Sheet & Visual Knowledge Map',
+    ]);
+  });
+
+  it('produces no warnings of its own', () => {
+    expect(handbook.diagnostics.filter((d) => d.file?.startsWith('Chapter 08'))).toEqual([]);
+  });
+});
+
 describe('every published chapter', () => {
   const sources = new Map(files.map((f) => [f.name, f.text]));
   const overviewFile = (number: string) => files.find((f) => new RegExp(`^Chapter (Chapter )?${number} - `).test(f.name))!.name;

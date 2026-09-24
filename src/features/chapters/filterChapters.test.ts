@@ -17,6 +17,7 @@ describe('filterChapters', () => {
       ['05', false, ['05.08']],
       ['06', false, ['06.08']],
       ['07', false, ['07.12']],
+      ['08', false, ['08.04']],
     ]);
   });
 
@@ -32,9 +33,16 @@ describe('filterChapters', () => {
     expect(match!.sections).toHaveLength(13);
     expect(summary('chapter 5')[0]![1]).toBe(true);
     expect(summary('where clause')).toEqual([['06', true, Array.from({ length: 14 }, (_, i) => `06.${String(i + 1).padStart(2, '0')}`)]]);
-    expect(summary('joins')).toEqual([['07', true, Array.from({ length: 17 }, (_, i) => `07.${String(i + 1).padStart(2, '0')}`)]]);
+    expect(summary('joins')).toEqual([
+      ['07', true, Array.from({ length: 17 }, (_, i) => `07.${String(i + 1).padStart(2, '0')}`)],
+      ['08', false, ['08.11']],
+    ]);
+    expect(summary('group by and having')).toEqual([['08', true, Array.from({ length: 17 }, (_, i) => `08.${String(i + 1).padStart(2, '0')}`)]]);
     // Coming-soon chapters match by title but have no sections.
-    expect(summary('group by')).toEqual([['08', true, []]]);
+    expect(summary('subqueries')).toEqual([
+      ['06', false, ['06.10']],
+      ['09', true, []],
+    ]);
   });
 
   it('returns nothing when nothing matches', () => {
