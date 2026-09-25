@@ -20,7 +20,8 @@ export const handbookConfig: HandbookConfig = {
     { number: '06', status: 'available' },
     { number: '07', status: 'available' },
     { number: '08', status: 'available' },
-    { number: '09', status: 'coming-soon', title: 'Subqueries' },
+    { number: '09', status: 'available' },
+    { number: '10', status: 'coming-soon', title: 'Indexes' },
   ],
 };
 

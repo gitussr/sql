@@ -182,6 +182,36 @@ describe('Chapter 08 import', () => {
   });
 });
 
+describe('Chapter 09 import', () => {
+  it('imports the introduction and sections 09.01–09.17 with their exact titles', () => {
+    const chapter = handbook.chapters.find((c) => c.number === '09')!;
+    expect(chapter).toMatchObject({ title: 'Subqueries', slug: 'subqueries', status: 'available', hasOverview: true });
+    expect(chapter.sections.map((s) => `${s.number} ${s.title}`)).toEqual([
+      '09.01 Introduction to Subqueries',
+      '09.02 Subquery Syntax and Placement',
+      '09.03 Scalar Subqueries',
+      '09.04 IN and NOT IN with Subqueries',
+      '09.05 EXISTS and NOT EXISTS',
+      '09.06 ANY, SOME and ALL',
+      '09.07 Correlated Subqueries',
+      '09.08 Derived Tables (Subqueries in FROM)',
+      '09.09 Subqueries with Aggregates (Comparing Rows to Group Figures)',
+      '09.10 LATERAL and CROSS APPLY',
+      '09.11 Subqueries in INSERT, UPDATE and DELETE',
+      '09.12 NULL Handling in Subqueries',
+      '09.13 Subqueries vs JOINs',
+      '09.14 Execution Flow of Subqueries (Unnesting and Decorrelation)',
+      '09.15 Subquery Performance and Index Strategy',
+      '09.16 Common Subquery Mistakes & Best Practices',
+      '09.17 Subquery Cheat Sheet & Visual Knowledge Map',
+    ]);
+  });
+
+  it('produces no warnings of its own', () => {
+    expect(handbook.diagnostics.filter((d) => d.file?.startsWith('Chapter 09'))).toEqual([]);
+  });
+});
+
 describe('every published chapter', () => {
   const sources = new Map(files.map((f) => [f.name, f.text]));
   const overviewFile = (number: string) => files.find((f) => new RegExp(`^Chapter (Chapter )?${number} - `).test(f.name))!.name;
