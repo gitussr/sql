@@ -44,8 +44,9 @@ describe('filterChapters', () => {
       ['06', false, ['06.10']],
       ['09', true, Array.from({ length: 17 }, (_, i) => `09.${String(i + 1).padStart(2, '0')}`)],
     ]);
+    expect(summary('indexes')).toEqual([['10', true, Array.from({ length: 17 }, (_, i) => `10.${String(i + 1).padStart(2, '0')}`)]]);
     // Coming-soon chapters match by title but have no sections.
-    expect(summary('indexes')).toEqual([['10', true, []]]);
+    expect(summary('window functions')).toEqual([['11', true, []]]);
   });
 
   it('returns nothing when nothing matches', () => {

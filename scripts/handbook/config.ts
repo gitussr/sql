@@ -21,7 +21,8 @@ export const handbookConfig: HandbookConfig = {
     { number: '07', status: 'available' },
     { number: '08', status: 'available' },
     { number: '09', status: 'available' },
-    { number: '10', status: 'coming-soon', title: 'Indexes' },
+    { number: '10', status: 'available' },
+    { number: '11', status: 'coming-soon', title: 'Window Functions' },
   ],
 };
 

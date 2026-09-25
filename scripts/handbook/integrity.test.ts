@@ -212,6 +212,36 @@ describe('Chapter 09 import', () => {
   });
 });
 
+describe('Chapter 10 import', () => {
+  it('imports the introduction and sections 10.01–10.17 with their exact titles', () => {
+    const chapter = handbook.chapters.find((c) => c.number === '10')!;
+    expect(chapter).toMatchObject({ title: 'Indexes', slug: 'indexes', status: 'available', hasOverview: true });
+    expect(chapter.sections.map((s) => `${s.number} ${s.title}`)).toEqual([
+      '10.01 Introduction to Indexes',
+      '10.02 How B-Tree Indexes Work',
+      '10.03 Creating and Managing Indexes',
+      '10.04 Clustered and Nonclustered Indexes',
+      '10.05 Composite Indexes and Column Order',
+      '10.06 Covering Indexes and Included Columns',
+      '10.07 Unique Indexes and Constraints',
+      '10.08 Index Seeks, Scans and Lookups',
+      '10.09 Index Types (Hash, Bitmap, GIN, GiST, BRIN and Columnstore)',
+      '10.10 Partial and Expression Indexes',
+      '10.11 Indexing for JOIN, GROUP BY and ORDER BY',
+      '10.12 Selectivity, Cardinality and Statistics',
+      '10.13 The Cost of Indexes (Writes, Storage and Locking)',
+      '10.14 Index Maintenance (Fragmentation, Rebuilds and Monitoring)',
+      '10.15 Index Design Strategy',
+      '10.16 Common Index Mistakes & Best Practices',
+      '10.17 Index Cheat Sheet & Visual Knowledge Map',
+    ]);
+  });
+
+  it('produces no warnings of its own', () => {
+    expect(handbook.diagnostics.filter((d) => d.file?.startsWith('Chapter 10'))).toEqual([]);
+  });
+});
+
 describe('every published chapter', () => {
   const sources = new Map(files.map((f) => [f.name, f.text]));
   const overviewFile = (number: string) => files.find((f) => new RegExp(`^Chapter (Chapter )?${number} - `).test(f.name))!.name;
