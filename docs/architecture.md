@@ -207,3 +207,13 @@ Chapter 09 (Subqueries) was added on 2026-09-25: an introduction plus sections 0
 - The chapter reuses the Chapter 08 schema and adds a `Returns` table (`OrderID`, `ProductID`, `CustomerID`); `Orders.CustomerID` is treated as nullable (guest checkouts) to demonstrate the `NOT IN` trap.
 - Chapter 10 is titled "Indexes" to match the `10.xx — Indexes` placeholders used since Chapter 05. `09.xx — CASE Expressions` placeholders in Chapter 05 still point at a chapter number that is now Subqueries.
 - The chapter filter now matches Chapter 09 sections for "NULL handling" (09.12) and "joins" (09.13); `filterChapters.test.ts` covers both, and "indexes" is the coming-soon case.
+
+## Content — Chapter 10
+
+Chapter 10 (Indexes) was added on 2026-09-25: an introduction plus sections 10.01–10.17, in the same format as Chapters 05–09. It covers what indexes are, B-tree structure, index DDL and online builds, clustered versus heap storage, composite column order, covering indexes and `INCLUDE`, unique indexes and `NULL` behaviour, access paths and their plan labels, specialised index types (hash, bitmap, GIN, GiST, BRIN, columnstore, vector), partial and expression indexes, indexing for joins, grouping, sorting and keyset pagination, selectivity and statistics, write and storage costs, maintenance, a design method, a mistakes catalogue and a cheat sheet. It is published in `scripts/handbook/config.ts`; Chapter 11 (Window Functions) is now the "coming soon" chapter.
+
+- Validation: 0 errors and no Chapter 10 warnings (the remaining 15 warnings are in Chapter 05, as before).
+- Typecheck, 405 tests and a production build pass; the build emits 17 section chunks plus the chapter overview.
+- The chapter reuses the Chapter 09 schema (adding `Customers.Email`) and assumes production-like row counts so that access-path choices are meaningful.
+- Related Topics link into Chapter 03 sections (03.07.03, 03.07.07, 03.09.06, 03.09.11); they resolve without warnings.
+- Chapter 11 is titled "Window Functions" to match the `11.xx — Window Functions` placeholders used since Chapter 08. `filterChapters.test.ts` now expects "indexes" to match all of Chapter 10 and uses "window functions" as the coming-soon case.
