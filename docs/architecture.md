@@ -197,3 +197,13 @@ Chapter 08 (GROUP BY and HAVING) was added on 2026-09-24: an introduction plus s
 - The chapter reuses the Chapter 07 sample schema, adding `Orders.Status`, `Products.ListPrice`, `Departments`, and `Employees.Salary`/`HireDate`.
 - Chapter 09 is titled "Subqueries" to match the `09.xx — Subqueries` placeholders used since Chapter 06. Chapter 05 also has `09.xx — CASE Expressions` placeholders, so CASE will need a chapter number of its own.
 - The chapter filter now matches Chapter 08 sections for "NULL handling" (08.04) and "joins" (08.11); `filterChapters.test.ts` covers both.
+
+## Content — Chapter 09
+
+Chapter 09 (Subqueries) was added on 2026-09-25: an introduction plus sections 09.01–09.17, in the same format as Chapters 05–08. It covers subquery syntax and scope, scalar subqueries, `IN`/`NOT IN`, `EXISTS`/`NOT EXISTS` (including relational division), `ANY`/`SOME`/`ALL`, correlated subqueries, derived tables, comparing rows and groups with aggregates, `LATERAL` and `APPLY`, subqueries in `INSERT`/`UPDATE`/`DELETE`/`MERGE`, `NULL` handling, subqueries versus joins, unnesting and decorrelation (including the count bug), index strategy, a mistakes catalogue and a cheat sheet. It is published in `scripts/handbook/config.ts`; Chapter 10 (Indexes) is now the "coming soon" chapter.
+
+- Validation: 0 errors and no Chapter 09 warnings (the remaining 15 warnings are in Chapter 05, as before).
+- Typecheck, 349 tests and a production build pass; the build emits 17 section chunks plus the chapter overview.
+- The chapter reuses the Chapter 08 schema and adds a `Returns` table (`OrderID`, `ProductID`, `CustomerID`); `Orders.CustomerID` is treated as nullable (guest checkouts) to demonstrate the `NOT IN` trap.
+- Chapter 10 is titled "Indexes" to match the `10.xx — Indexes` placeholders used since Chapter 05. `09.xx — CASE Expressions` placeholders in Chapter 05 still point at a chapter number that is now Subqueries.
+- The chapter filter now matches Chapter 09 sections for "NULL handling" (09.12) and "joins" (09.13); `filterChapters.test.ts` covers both, and "indexes" is the coming-soon case.
