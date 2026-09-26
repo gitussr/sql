@@ -217,3 +217,13 @@ Chapter 10 (Indexes) was added on 2026-09-25: an introduction plus sections 10.0
 - The chapter reuses the Chapter 09 schema (adding `Customers.Email`) and assumes production-like row counts so that access-path choices are meaningful.
 - Related Topics link into Chapter 03 sections (03.07.03, 03.07.07, 03.09.06, 03.09.11); they resolve without warnings.
 - Chapter 11 is titled "Window Functions" to match the `11.xx — Window Functions` placeholders used since Chapter 08. `filterChapters.test.ts` now expects "indexes" to match all of Chapter 10 and uses "window functions" as the coming-soon case.
+
+## Content — Chapter 11
+
+Chapter 11 (Window Functions) was added on 2026-09-26: an introduction plus sections 11.01–11.17, in the same format as Chapters 05–10. It covers what window functions are, the `OVER` clause, ranking functions, aggregate windows, frames (`ROWS`, `RANGE`, `GROUPS`), running totals and moving averages, `LAG`/`LEAD`, `FIRST_VALUE`/`LAST_VALUE`/`NTH_VALUE`, distribution functions and percentiles, top-N per group, deduplication and `QUALIFY`, named windows, gaps and islands, `NULL` handling, execution flow, performance and indexing, a mistakes catalogue and a cheat sheet. It is published in `scripts/handbook/config.ts`; Chapter 12 (Scalar Functions) is now the "coming soon" chapter.
+
+- Validation: 0 errors and no Chapter 11 warnings (the remaining 15 warnings are in Chapter 05, as before).
+- Typecheck, 461 tests and a production build pass; the build emits 17 section chunks plus the chapter overview.
+- The chapter reuses the Chapter 10 schema and adds a `DailySales` table (`SalesDate`, `Revenue`) for time-series examples.
+- Chapter 12 is titled "Scalar Functions" to match the `12.xx — Scalar Functions` placeholders in Chapters 05 and 11. Chapters 06 and 08 still say `12.xx — String Functions`.
+- The chapter filter now matches 11.13 for "NULL handling"; `filterChapters.test.ts` covers it, expects "window functions" to match all of Chapter 11, and uses "scalar functions" as the coming-soon case.
