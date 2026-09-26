@@ -22,7 +22,8 @@ export const handbookConfig: HandbookConfig = {
     { number: '08', status: 'available' },
     { number: '09', status: 'available' },
     { number: '10', status: 'available' },
-    { number: '11', status: 'coming-soon', title: 'Window Functions' },
+    { number: '11', status: 'available' },
+    { number: '12', status: 'coming-soon', title: 'Scalar Functions' },
   ],
 };
 

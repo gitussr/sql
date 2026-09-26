@@ -242,6 +242,36 @@ describe('Chapter 10 import', () => {
   });
 });
 
+describe('Chapter 11 import', () => {
+  it('imports the introduction and sections 11.01–11.17 with their exact titles', () => {
+    const chapter = handbook.chapters.find((c) => c.number === '11')!;
+    expect(chapter).toMatchObject({ title: 'Window Functions', slug: 'window-functions', status: 'available', hasOverview: true });
+    expect(chapter.sections.map((s) => `${s.number} ${s.title}`)).toEqual([
+      '11.01 Introduction to Window Functions',
+      '11.02 The OVER Clause (PARTITION BY and ORDER BY)',
+      '11.03 Ranking Functions (ROW_NUMBER, RANK, DENSE_RANK, NTILE)',
+      '11.04 Aggregate Window Functions',
+      '11.05 Window Frames (ROWS, RANGE and GROUPS)',
+      '11.06 Running Totals, Moving Averages and Shares',
+      '11.07 LAG and LEAD',
+      '11.08 FIRST_VALUE, LAST_VALUE and NTH_VALUE',
+      '11.09 Distribution Functions (PERCENT_RANK, CUME_DIST and Percentiles)',
+      '11.10 Top-N per Group, Deduplication and QUALIFY',
+      '11.11 Named Windows and the WINDOW Clause',
+      '11.12 Gaps and Islands',
+      '11.13 NULL Handling in Window Functions',
+      '11.14 Execution Flow of Window Functions',
+      '11.15 Window Function Performance and Index Strategy',
+      '11.16 Common Window Function Mistakes & Best Practices',
+      '11.17 Window Function Cheat Sheet & Visual Knowledge Map',
+    ]);
+  });
+
+  it('produces no warnings of its own', () => {
+    expect(handbook.diagnostics.filter((d) => d.file?.startsWith('Chapter 11'))).toEqual([]);
+  });
+});
+
 describe('every published chapter', () => {
   const sources = new Map(files.map((f) => [f.name, f.text]));
   const overviewFile = (number: string) => files.find((f) => new RegExp(`^Chapter (Chapter )?${number} - `).test(f.name))!.name;

@@ -19,6 +19,7 @@ describe('filterChapters', () => {
       ['07', false, ['07.12']],
       ['08', false, ['08.04']],
       ['09', false, ['09.12']],
+      ['11', false, ['11.13']],
     ]);
   });
 
@@ -45,8 +46,9 @@ describe('filterChapters', () => {
       ['09', true, Array.from({ length: 17 }, (_, i) => `09.${String(i + 1).padStart(2, '0')}`)],
     ]);
     expect(summary('indexes')).toEqual([['10', true, Array.from({ length: 17 }, (_, i) => `10.${String(i + 1).padStart(2, '0')}`)]]);
+    expect(summary('window functions')).toEqual([['11', true, Array.from({ length: 17 }, (_, i) => `11.${String(i + 1).padStart(2, '0')}`)]]);
     // Coming-soon chapters match by title but have no sections.
-    expect(summary('window functions')).toEqual([['11', true, []]]);
+    expect(summary('scalar functions')).toEqual([['12', true, []]]);
   });
 
   it('returns nothing when nothing matches', () => {
