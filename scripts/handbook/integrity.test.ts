@@ -272,6 +272,36 @@ describe('Chapter 11 import', () => {
   });
 });
 
+describe('Chapter 12 import', () => {
+  it('imports the introduction and sections 12.01–12.17 with their exact titles', () => {
+    const chapter = handbook.chapters.find((c) => c.number === '12')!;
+    expect(chapter).toMatchObject({ title: 'Scalar Functions', slug: 'scalar-functions', status: 'available', hasOverview: true });
+    expect(chapter.sections.map((s) => `${s.number} ${s.title}`)).toEqual([
+      '12.01 Introduction to Scalar Functions',
+      '12.02 String Basics (Length, Case and Trimming)',
+      '12.03 Substrings, Searching and Replacing',
+      '12.04 Concatenation and String Formatting',
+      '12.05 Regular Expression Functions',
+      '12.06 Numeric and Mathematical Functions',
+      '12.07 Rounding, Truncation and Numeric Precision',
+      '12.08 Type Conversion (CAST, CONVERT and TRY_CAST)',
+      '12.09 NULL Functions (COALESCE, NULLIF, ISNULL and NVL)',
+      '12.10 Conditional Expressions (CASE, IIF, GREATEST and LEAST)',
+      '12.11 Collation, Case Sensitivity and Unicode',
+      '12.12 JSON Functions',
+      '12.13 User-Defined Scalar Functions',
+      '12.14 Execution Flow of Scalar Functions',
+      '12.15 Scalar Function Performance and Index Strategy',
+      '12.16 Common Scalar Function Mistakes & Best Practices',
+      '12.17 Scalar Function Cheat Sheet & Visual Knowledge Map',
+    ]);
+  });
+
+  it('produces no warnings of its own', () => {
+    expect(handbook.diagnostics.filter((d) => d.file?.startsWith('Chapter 12'))).toEqual([]);
+  });
+});
+
 describe('every published chapter', () => {
   const sources = new Map(files.map((f) => [f.name, f.text]));
   const overviewFile = (number: string) => files.find((f) => new RegExp(`^Chapter (Chapter )?${number} - `).test(f.name))!.name;

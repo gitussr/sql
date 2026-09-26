@@ -23,7 +23,8 @@ export const handbookConfig: HandbookConfig = {
     { number: '09', status: 'available' },
     { number: '10', status: 'available' },
     { number: '11', status: 'available' },
-    { number: '12', status: 'coming-soon', title: 'Scalar Functions' },
+    { number: '12', status: 'available' },
+    { number: '13', status: 'coming-soon', title: 'Date and Time Functions' },
   ],
 };
 
