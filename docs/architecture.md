@@ -227,3 +227,15 @@ Chapter 11 (Window Functions) was added on 2026-09-26: an introduction plus sect
 - The chapter reuses the Chapter 10 schema and adds a `DailySales` table (`SalesDate`, `Revenue`) for time-series examples.
 - Chapter 12 is titled "Scalar Functions" to match the `12.xx — Scalar Functions` placeholders in Chapters 05 and 11. Chapters 06 and 08 still say `12.xx — String Functions`.
 - The chapter filter now matches 11.13 for "NULL handling"; `filterChapters.test.ts` covers it, expects "window functions" to match all of Chapter 11, and uses "scalar functions" as the coming-soon case.
+
+## Content — Chapter 12
+
+Chapter 12 (Scalar Functions) was added on 2026-09-26: an introduction plus sections 12.01–12.17, in the same format as Chapters 05–11. It covers what scalar functions are, string length, case, trimming and padding, substrings, searching and replacing, concatenation and formatting, regular expressions, numeric functions, rounding and precision, type conversion and safe conversion, `NULL` functions, `CASE` and other conditional expressions, collation and Unicode, JSON functions, user-defined scalar functions, execution flow, performance and expression indexes, a mistakes catalogue and a cheat sheet. It is published in `scripts/handbook/config.ts`; Chapter 13 (Date and Time Functions) is now the "coming soon" chapter.
+
+- Validation: 0 errors and no Chapter 12 warnings (the remaining 15 warnings are in Chapter 05, as before).
+- Typecheck, 517 tests and a production build pass; the build emits 17 section chunks plus the chapter overview.
+- The chapter reuses the Chapter 11 schema and adds `Customers.Phone` and a JSON `Products.Attributes` column.
+- Date and time functions are left to Chapter 13, matching the `13.xx — Date and Time Functions` placeholders.
+- `CASE` is covered in 12.10. The `09.xx — CASE Expressions` placeholders in Chapter 05 still point at a chapter number that is now Subqueries, and Chapters 06 and 08 still link to `12.xx — String Functions`.
+- Tables in 12.01, 12.04 and 12.17 escape `||` as `\|\|` inside cells; GFM renders them as plain `||`.
+- `filterChapters.test.ts` now expects "scalar functions" to match all of Chapter 12 and uses "date and time functions" as the coming-soon case.
