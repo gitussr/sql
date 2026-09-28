@@ -362,6 +362,36 @@ describe('Chapter 14 import', () => {
   });
 });
 
+describe('Chapter 15 import', () => {
+  it('imports the introduction and sections 15.01–15.17 with their exact titles', () => {
+    const chapter = handbook.chapters.find((c) => c.number === '15')!;
+    expect(chapter).toMatchObject({ title: 'Query Optimization', slug: 'query-optimization', status: 'available', hasOverview: true });
+    expect(chapter.sections.map((s) => `${s.number} ${s.title}`)).toEqual([
+      '15.01 Introduction to Query Optimization',
+      '15.02 How the Query Optimizer Works (Parsing, Rewriting and Cost-Based Planning)',
+      '15.03 Statistics, Cardinality Estimation and the Cost Model',
+      '15.04 Automatic Query Rewrites (Pushdown, Unnesting and Elimination)',
+      '15.05 Choosing Access Paths (Scans, Seeks and Lookups)',
+      '15.06 Join Ordering and Join Algorithm Selection',
+      '15.07 Writing Optimizer-Friendly SQL',
+      '15.08 Parameter Sniffing, Plan Caching and Prepared Statements',
+      '15.09 Optimizer Hints and Plan Guides',
+      '15.10 Pagination and Top-N Query Optimization',
+      '15.11 Optimizing Aggregation and Sorting',
+      '15.12 Optimizing Writes (Batch INSERT, UPDATE and DELETE)',
+      '15.13 Concurrency, Locking and Query Performance',
+      '15.14 Measuring Query Performance (Timing, I/O and Wait Statistics)',
+      '15.15 A Systematic Tuning Workflow',
+      '15.16 Common Query Optimization Mistakes & Best Practices',
+      '15.17 Query Optimization Cheat Sheet & Visual Knowledge Map',
+    ]);
+  });
+
+  it('produces no warnings of its own', () => {
+    expect(handbook.diagnostics.filter((d) => d.file?.startsWith('Chapter 15'))).toEqual([]);
+  });
+});
+
 describe('every published chapter', () => {
   const sources = new Map(files.map((f) => [f.name, f.text]));
   const overviewFile = (number: string) => files.find((f) => new RegExp(`^Chapter (Chapter )?${number} - `).test(f.name))!.name;

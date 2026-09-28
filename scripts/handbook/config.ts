@@ -26,7 +26,8 @@ export const handbookConfig: HandbookConfig = {
     { number: '12', status: 'available' },
     { number: '13', status: 'available' },
     { number: '14', status: 'available' },
-    { number: '15', status: 'coming-soon', title: 'Query Optimization' },
+    { number: '15', status: 'available' },
+    { number: '16', status: 'coming-soon', title: 'Reading Execution Plans' },
   ],
 };
 
