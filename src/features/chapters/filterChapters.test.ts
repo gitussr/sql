@@ -27,6 +27,8 @@ describe('filterChapters', () => {
     expect(summary('05.11')).toEqual([['05', false, ['05.11']]]);
     expect(summary('5.11')).toEqual([['05', false, ['05.11']]]);
     expect(summary('05.1')).toEqual([['05', false, ['05.10', '05.11', '05.12', '05.13']]]);
+    // A number never matches in the middle of another number: "5" is not part of "15" or "06.05".
+    expect(summary('5').map(([number]) => number)).toEqual(['05']);
   });
 
   it('shows every section of a matching chapter', () => {

@@ -19,15 +19,24 @@ export function filterChapters(chapters: Chapter[], query: string): ChapterMatch
   const results: ChapterMatch[] = [];
   for (const chapter of chapters) {
     const chapterMatches =
-      normalize(`${chapter.number} ${chapter.title}`).includes(text) ||
+      contains(normalize(`${chapter.number} ${chapter.title}`), text) ||
       normalize(`chapter ${chapter.number}`).includes(number) ||
-      normalize(`chapter ${Number(chapter.number)}`).includes(text);
+      contains(normalize(`chapter ${Number(chapter.number)}`), text);
     const sections = chapterMatches
       ? chapter.sections
-      : chapter.sections.filter((section) => normalize(`${section.number} ${section.title}`).includes(text) || section.number.startsWith(number));
+      : chapter.sections.filter((section) => contains(normalize(`${section.number} ${section.title}`), text) || section.number.startsWith(number));
     if (chapterMatches || sections.length > 0) results.push({ chapter, sections, chapterMatches });
   }
   return results;
+}
+
+/** Substring match, except that a query starting with a digit must not start mid-number ("5.11" ≠ "15.11"). */
+function contains(haystack: string, needle: string): boolean {
+  if (!/^\d/.test(needle)) return haystack.includes(needle);
+  for (let index = haystack.indexOf(needle); index !== -1; index = haystack.indexOf(needle, index + 1)) {
+    if (index === 0 || !/\d/.test(haystack[index - 1]!)) return true;
+  }
+  return false;
 }
 
 function normalize(value: string): string {
