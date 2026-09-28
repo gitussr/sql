@@ -302,6 +302,36 @@ describe('Chapter 12 import', () => {
   });
 });
 
+describe('Chapter 13 import', () => {
+  it('imports the introduction and sections 13.01–13.17 with their exact titles', () => {
+    const chapter = handbook.chapters.find((c) => c.number === '13')!;
+    expect(chapter).toMatchObject({ title: 'Date and Time Functions', slug: 'date-and-time-functions', status: 'available', hasOverview: true });
+    expect(chapter.sections.map((s) => `${s.number} ${s.title}`)).toEqual([
+      '13.01 Introduction to Date and Time Functions',
+      '13.02 Date and Time Data Types',
+      '13.03 Current Date and Time',
+      '13.04 Extracting Date Parts (EXTRACT, DATEPART and DATENAME)',
+      '13.05 Date Arithmetic and Intervals',
+      '13.06 Date Differences and Age Calculations',
+      '13.07 Truncating and Bucketing Dates (DATE_TRUNC and date_bin)',
+      '13.08 Formatting and Parsing Dates',
+      '13.09 Time Zones, UTC and Daylight Saving Time',
+      '13.10 Filtering Date Ranges (Half-Open Intervals)',
+      '13.11 Generating Date Series and Calendar Tables',
+      '13.12 Weeks, Quarters and Fiscal Calendars',
+      '13.13 Business Days, Holidays and Working Time',
+      '13.14 Execution Flow of Date and Time Functions',
+      '13.15 Date and Time Performance and Index Strategy',
+      '13.16 Common Date and Time Mistakes & Best Practices',
+      '13.17 Date and Time Cheat Sheet & Visual Knowledge Map',
+    ]);
+  });
+
+  it('produces no warnings of its own', () => {
+    expect(handbook.diagnostics.filter((d) => d.file?.startsWith('Chapter 13'))).toEqual([]);
+  });
+});
+
 describe('every published chapter', () => {
   const sources = new Map(files.map((f) => [f.name, f.text]));
   const overviewFile = (number: string) => files.find((f) => new RegExp(`^Chapter (Chapter )?${number} - `).test(f.name))!.name;

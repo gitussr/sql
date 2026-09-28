@@ -24,7 +24,8 @@ export const handbookConfig: HandbookConfig = {
     { number: '10', status: 'available' },
     { number: '11', status: 'available' },
     { number: '12', status: 'available' },
-    { number: '13', status: 'coming-soon', title: 'Date and Time Functions' },
+    { number: '13', status: 'available' },
+    { number: '14', status: 'coming-soon', title: 'Common Table Expressions' },
   ],
 };
 
