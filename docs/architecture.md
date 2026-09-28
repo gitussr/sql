@@ -259,3 +259,14 @@ Chapter 14 (Common Table Expressions) was added on 2026-09-28: an introduction p
 - Typecheck, 629 tests and a production build pass; the build emits 17 section chunks plus the chapter overview.
 - The chapter reuses the Chapter 13 schema and adds `Categories`, `Parts`, `BillOfMaterials` and `Routes` tables.
 - The chapter filter now matches 14.04 for "subqueries" and 14.09 for "window functions". `filterChapters.test.ts` covers both, expects "common table expressions" to match all of Chapter 14, and uses "query optimization" as the coming-soon case.
+
+## Content — Chapter 15
+
+Chapter 15 (Query Optimization) was added on 2026-09-28: an introduction plus sections 15.01–15.17, in the same format as Chapters 05–14. It covers how the optimizer parses, rewrites and costs plans, statistics and cardinality estimation, automatic rewrites, access paths, join ordering and algorithms, optimizer-friendly SQL, parameter sniffing and plan caching, hints and plan forcing, pagination and top-N, aggregation and sorting, write optimization, concurrency and locking, measurement, a systematic tuning workflow, a mistakes catalogue and a cheat sheet. It is published in `scripts/handbook/config.ts`; Chapter 16 (Reading Execution Plans) is now the "coming soon" chapter, matching the existing `16.xx — Reading Execution Plans` placeholders.
+
+- Validation: 0 errors and no Chapter 15 warnings (the remaining 15 warnings are in Chapter 05, as before).
+- Typecheck, 685 tests and a production build pass; the build emits 17 section chunks plus the chapter overview.
+- The chapter reuses the Chapter 14 schema and states assumed table sizes and indexes, since plan choices depend on them.
+- The 15.14 file is named `… (Timing, I-O and Wait Statistics).md` because `/` cannot appear in file names; its frontmatter title keeps `I/O`, and titles come from frontmatter.
+- Section titles avoid the words "Joins", "Indexes", "Subqueries" and "Window Functions", so searching for those still lists only their own chapters.
+- Chapter filter fix: a query starting with a digit no longer matches in the middle of a number, so "5.11" finds 05.11 but not 15.11, and "5" finds only Chapter 05. `filterChapters.test.ts` covers this, expects "query optimization" to match all of Chapter 15, and uses "reading execution plans" as the coming-soon case.
