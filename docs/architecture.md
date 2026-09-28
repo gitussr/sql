@@ -239,3 +239,14 @@ Chapter 12 (Scalar Functions) was added on 2026-09-26: an introduction plus sect
 - `CASE` is covered in 12.10. The `09.xx — CASE Expressions` placeholders in Chapter 05 still point at a chapter number that is now Subqueries, and Chapters 06 and 08 still link to `12.xx — String Functions`.
 - Tables in 12.01, 12.04 and 12.17 escape `||` as `\|\|` inside cells; GFM renders them as plain `||`.
 - `filterChapters.test.ts` now expects "scalar functions" to match all of Chapter 12 and uses "date and time functions" as the coming-soon case.
+
+## Content — Chapter 13
+
+Chapter 13 (Date and Time Functions) was added on 2026-09-28: an introduction plus sections 13.01–13.17, in the same format as Chapters 05–12. It covers temporal data types, the current date and time, extracting parts, date arithmetic and month-end rules, differences and ages, truncation and fixed-width buckets, formatting and parsing, time zones and daylight saving time, half-open range filters, date series and calendar tables, ISO weeks and fiscal calendars, business days and working time, execution flow, performance and partitioning, a mistakes catalogue and a cheat sheet. It is published in `scripts/handbook/config.ts`; Chapter 14 (Common Table Expressions) is now the "coming soon" chapter.
+
+- Validation: 0 errors and no Chapter 13 warnings (the remaining 15 warnings are in Chapter 05, as before).
+- Typecheck, 573 tests and a production build pass; the build emits 17 section chunks plus the chapter overview.
+- The chapter reuses the Chapter 12 schema and adds `Customers.BirthDate`, `Customers.TimeZone`, `Orders.CreatedAt`, `Orders.ShippedAt` and a `Holidays` table; 13.11 defines a `Calendar` table.
+- No earlier chapter names Chapter 14, so its title is new. Later placeholders are still `15.xx — Query Optimization` and `16.xx — Reading Execution Plans`.
+- Tables in 13.05 and 13.08 escape `||` as `\|\|` inside cells.
+- `filterChapters.test.ts` now expects "date and time functions" to match all of Chapter 13 and uses "common table expressions" as the coming-soon case.
