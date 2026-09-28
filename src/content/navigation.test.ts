@@ -68,9 +68,10 @@ describe('navigation helpers', () => {
     expect(keys.slice(keys.indexOf('section:10.17'), keys.indexOf('section:10.17') + 3)).toEqual(['section:10.17', 'chapter:11', 'section:11.01']);
     expect(keys.slice(keys.indexOf('section:11.17'), keys.indexOf('section:11.17') + 3)).toEqual(['section:11.17', 'chapter:12', 'section:12.01']);
     expect(keys.slice(keys.indexOf('section:12.17'), keys.indexOf('section:12.17') + 3)).toEqual(['section:12.17', 'chapter:13', 'section:13.01']);
-    expect(keys.at(-1)).toBe('section:13.17');
+    expect(keys.slice(keys.indexOf('section:13.17'), keys.indexOf('section:13.17') + 3)).toEqual(['section:13.17', 'chapter:14', 'section:14.01']);
+    expect(keys.at(-1)).toBe('section:14.17');
     // Coming-soon chapters have nothing to read.
-    expect(keys).not.toContain('chapter:14');
+    expect(keys).not.toContain('chapter:15');
   });
 
   it('resolves previous and next entries', () => {
@@ -95,7 +96,9 @@ describe('navigation helpers', () => {
     expect(entryKey(adjacentEntries('chapter:12').previous!)).toBe('section:11.17');
     expect(entryKey(adjacentEntries('section:12.17').next!)).toBe('chapter:13');
     expect(entryKey(adjacentEntries('chapter:13').previous!)).toBe('section:12.17');
-    expect(adjacentEntries('section:13.17').next).toBeUndefined();
+    expect(entryKey(adjacentEntries('section:13.17').next!)).toBe('chapter:14');
+    expect(entryKey(adjacentEntries('chapter:14').previous!)).toBe('section:13.17');
+    expect(adjacentEntries('section:14.17').next).toBeUndefined();
   });
 
   it('labels and links sequence entries', () => {

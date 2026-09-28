@@ -332,6 +332,36 @@ describe('Chapter 13 import', () => {
   });
 });
 
+describe('Chapter 14 import', () => {
+  it('imports the introduction and sections 14.01–14.17 with their exact titles', () => {
+    const chapter = handbook.chapters.find((c) => c.number === '14')!;
+    expect(chapter).toMatchObject({ title: 'Common Table Expressions', slug: 'common-table-expressions', status: 'available', hasOverview: true });
+    expect(chapter.sections.map((s) => `${s.number} ${s.title}`)).toEqual([
+      '14.01 Introduction to Common Table Expressions',
+      '14.02 CTE Syntax and Scope',
+      '14.03 Multiple and Chained CTEs',
+      '14.04 CTEs vs Subqueries, Derived Tables and Views',
+      '14.05 Recursive CTEs (Anchor, Recursive Member and Termination)',
+      '14.06 Hierarchies with Recursive CTEs (Trees, Paths and Levels)',
+      '14.07 Graph Traversal and Cycle Detection (SEARCH and CYCLE)',
+      '14.08 Generating Series and Sequences with Recursive CTEs',
+      '14.09 CTEs with Aggregates and Window Functions',
+      '14.10 Data-Modifying CTEs (INSERT, UPDATE and DELETE)',
+      '14.11 Recursion Limits and Safety',
+      '14.12 Common CTE Patterns (Deduplication, Top-N and Running Balances)',
+      '14.13 Materialization and Inlining (MATERIALIZED and NOT MATERIALIZED)',
+      '14.14 Execution Flow of CTEs',
+      '14.15 CTE Performance and Index Strategy',
+      '14.16 Common CTE Mistakes & Best Practices',
+      '14.17 CTE Cheat Sheet & Visual Knowledge Map',
+    ]);
+  });
+
+  it('produces no warnings of its own', () => {
+    expect(handbook.diagnostics.filter((d) => d.file?.startsWith('Chapter 14'))).toEqual([]);
+  });
+});
+
 describe('every published chapter', () => {
   const sources = new Map(files.map((f) => [f.name, f.text]));
   const overviewFile = (number: string) => files.find((f) => new RegExp(`^Chapter (Chapter )?${number} - `).test(f.name))!.name;

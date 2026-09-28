@@ -25,7 +25,8 @@ export const handbookConfig: HandbookConfig = {
     { number: '11', status: 'available' },
     { number: '12', status: 'available' },
     { number: '13', status: 'available' },
-    { number: '14', status: 'coming-soon', title: 'Common Table Expressions' },
+    { number: '14', status: 'available' },
+    { number: '15', status: 'coming-soon', title: 'Query Optimization' },
   ],
 };
 
