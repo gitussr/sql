@@ -392,6 +392,36 @@ describe('Chapter 15 import', () => {
   });
 });
 
+describe('Chapter 16 import', () => {
+  it('imports the introduction and sections 16.01–16.17 with their exact titles', () => {
+    const chapter = handbook.chapters.find((c) => c.number === '16')!;
+    expect(chapter).toMatchObject({ title: 'Reading Execution Plans', slug: 'reading-execution-plans', status: 'available', hasOverview: true });
+    expect(chapter.sections.map((s) => `${s.number} ${s.title}`)).toEqual([
+      '16.01 Introduction to Execution Plans',
+      '16.02 Getting a Plan (EXPLAIN, Estimated and Actual Plans)',
+      '16.03 Plan Structure (Operators, Trees and Data Flow)',
+      '16.04 Reading PostgreSQL Plans (EXPLAIN ANALYZE and BUFFERS)',
+      '16.05 Reading SQL Server Plans (Showplan and Operator Properties)',
+      '16.06 Reading MySQL Plans (EXPLAIN FORMAT=TREE and EXPLAIN ANALYZE)',
+      '16.07 Reading Oracle and SQLite Plans (DBMS_XPLAN and EXPLAIN QUERY PLAN)',
+      '16.08 Table Access Operators (Scans, Seeks, Lookups and Bitmaps)',
+      '16.09 Join Operators (Nested Loop, Hash and Merge)',
+      '16.10 Sort, Aggregate and Set Operators',
+      '16.11 Estimates vs Actuals (Finding Cardinality Misestimates)',
+      '16.12 Plan Warnings and Red Flags (Spills, Conversions and Residual Predicates)',
+      '16.13 Parallel Plans and Exchange Operators',
+      '16.14 Comparing Plans and Detecting Plan Regressions',
+      '16.15 Capturing Plans in Production (Query Store, auto_explain and AWR)',
+      '16.16 Common Execution Plan Mistakes & Best Practices',
+      '16.17 Execution Plan Cheat Sheet & Visual Knowledge Map',
+    ]);
+  });
+
+  it('produces no warnings of its own', () => {
+    expect(handbook.diagnostics.filter((d) => d.file?.startsWith('Chapter 16'))).toEqual([]);
+  });
+});
+
 describe('every published chapter', () => {
   const sources = new Map(files.map((f) => [f.name, f.text]));
   const overviewFile = (number: string) => files.find((f) => new RegExp(`^Chapter (Chapter )?${number} - `).test(f.name))!.name;

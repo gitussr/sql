@@ -57,8 +57,9 @@ describe('filterChapters', () => {
     expect(summary('date and time functions')).toEqual([['13', true, Array.from({ length: 17 }, (_, i) => `13.${String(i + 1).padStart(2, '0')}`)]]);
     expect(summary('common table expressions')).toEqual([['14', true, Array.from({ length: 17 }, (_, i) => `14.${String(i + 1).padStart(2, '0')}`)]]);
     expect(summary('query optimization')).toEqual([['15', true, Array.from({ length: 17 }, (_, i) => `15.${String(i + 1).padStart(2, '0')}`)]]);
+    expect(summary('reading execution plans')).toEqual([['16', true, Array.from({ length: 17 }, (_, i) => `16.${String(i + 1).padStart(2, '0')}`)]]);
     // Coming-soon chapters match by title but have no sections.
-    expect(summary('reading execution plans')).toEqual([['16', true, []]]);
+    expect(summary('views and materialized views')).toEqual([['17', true, []]]);
   });
 
   it('returns nothing when nothing matches', () => {

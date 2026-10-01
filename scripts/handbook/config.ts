@@ -27,7 +27,8 @@ export const handbookConfig: HandbookConfig = {
     { number: '13', status: 'available' },
     { number: '14', status: 'available' },
     { number: '15', status: 'available' },
-    { number: '16', status: 'coming-soon', title: 'Reading Execution Plans' },
+    { number: '16', status: 'available' },
+    { number: '17', status: 'coming-soon', title: 'Views and Materialized Views' },
   ],
 };
 
