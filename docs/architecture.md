@@ -270,3 +270,12 @@ Chapter 15 (Query Optimization) was added on 2026-09-28: an introduction plus se
 - The 15.14 file is named `… (Timing, I-O and Wait Statistics).md` because `/` cannot appear in file names; its frontmatter title keeps `I/O`, and titles come from frontmatter.
 - Section titles avoid the words "Joins", "Indexes", "Subqueries" and "Window Functions", so searching for those still lists only their own chapters.
 - Chapter filter fix: a query starting with a digit no longer matches in the middle of a number, so "5.11" finds 05.11 but not 15.11, and "5" finds only Chapter 05. `filterChapters.test.ts` covers this, expects "query optimization" to match all of Chapter 15, and uses "reading execution plans" as the coming-soon case.
+
+## Content — Chapter 16
+
+Chapter 16 (Reading Execution Plans) was added on 2026-10-01: an introduction plus sections 16.01–16.17, in the same format as Chapters 05–15. It covers estimated and actual plans and how to get them, the operator-tree model, plan output on PostgreSQL, SQL Server, MySQL, Oracle and SQLite, access, join, sort, aggregate and set operators, estimates versus actuals, warnings and red flags, parallel plans, plan comparison and regressions, production plan capture, a mistakes catalogue and a cheat sheet with an operator translation table. It is published in `scripts/handbook/config.ts`. Chapter 17 (Views and Materialized Views) is now the "coming soon" chapter. No earlier placeholder named Chapter 17, so this title is new; Chapter 16 refers to it as `17.xx — Views and Materialized Views`.
+
+- Validation: 0 errors and no Chapter 16 warnings (the remaining 15 warnings are in Chapter 05, as before).
+- Typecheck, 741 tests and a production build pass; the build emits 17 section chunks plus the chapter overview.
+- The chapter reuses the Chapter 15 schema and assumed sizes. Plan output is realistic in shape, but costs and timings are illustrative.
+- Section titles avoid words that earlier chapter titles contain, so the existing filter cases are unchanged. `filterChapters.test.ts` expects "reading execution plans" to match all of Chapter 16, and uses "views and materialized views" as the coming-soon case.
