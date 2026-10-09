@@ -422,6 +422,36 @@ describe('Chapter 16 import', () => {
   });
 });
 
+describe('Chapter 17 import', () => {
+  it('imports the introduction and sections 17.01–17.17 with their exact titles', () => {
+    const chapter = handbook.chapters.find((c) => c.number === '17')!;
+    expect(chapter).toMatchObject({ title: 'Views and Materialized Views', slug: 'views-and-materialized-views', status: 'available', hasOverview: true });
+    expect(chapter.sections.map((s) => `${s.number} ${s.title}`)).toEqual([
+      '17.01 Introduction to Views',
+      '17.02 Creating and Managing Views (CREATE, ALTER, DROP and OR REPLACE)',
+      '17.03 How Views Are Expanded (View Merging and Predicate Pushdown)',
+      '17.04 Updatable Views (INSERT, UPDATE and DELETE Through Views)',
+      '17.05 WITH CHECK OPTION and INSTEAD OF Triggers',
+      '17.06 Views for Security (Row-Level and Column-Level Access)',
+      '17.07 View Dependencies, Schema Binding and Schema Changes',
+      '17.08 Nested Views and Layered View Design',
+      '17.09 Materialized View Fundamentals',
+      '17.10 Refreshing Materialized Views (Complete, Incremental and Concurrent)',
+      '17.11 Indexed Views and Automatic Query Rewrite',
+      '17.12 Indexing Materialized Views',
+      '17.13 Summary Tables and Reporting Patterns',
+      '17.14 Execution Flow of Views and Materialized Views',
+      '17.15 View Performance and Index Strategy',
+      '17.16 Common View Mistakes & Best Practices',
+      '17.17 View Cheat Sheet & Visual Knowledge Map',
+    ]);
+  });
+
+  it('produces no warnings of its own', () => {
+    expect(handbook.diagnostics.filter((d) => d.file?.startsWith('Chapter 17'))).toEqual([]);
+  });
+});
+
 describe('every published chapter', () => {
   const sources = new Map(files.map((f) => [f.name, f.text]));
   const overviewFile = (number: string) => files.find((f) => new RegExp(`^Chapter (Chapter )?${number} - `).test(f.name))!.name;
