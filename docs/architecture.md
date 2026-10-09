@@ -279,3 +279,12 @@ Chapter 16 (Reading Execution Plans) was added on 2026-10-01: an introduction pl
 - Typecheck, 741 tests and a production build pass; the build emits 17 section chunks plus the chapter overview.
 - The chapter reuses the Chapter 15 schema and assumed sizes. Plan output is realistic in shape, but costs and timings are illustrative.
 - Section titles avoid words that earlier chapter titles contain, so the existing filter cases are unchanged. `filterChapters.test.ts` expects "reading execution plans" to match all of Chapter 16, and uses "views and materialized views" as the coming-soon case.
+
+## Content — Chapter 17
+
+Chapter 17 (Views and Materialized Views) was added on 2026-10-09: an introduction plus sections 17.01–17.17, in the same format as Chapters 05–16. It covers view DDL and options, view expansion (merging, predicate pushdown and join elimination), updatable views, `WITH CHECK OPTION` and `INSTEAD OF` triggers, views for security, dependencies and schema binding, layered view design, materialized views and refresh methods, SQL Server indexed views and Oracle query rewrite, indexing materialized views, summary tables, execution flow, performance, a mistakes catalogue and a cheat sheet. It is published in `scripts/handbook/config.ts`. Chapter 18 (Stored Procedures and Triggers) is now the "coming soon" chapter. Its title combines the `18.xx — Stored Procedures` and `18.xx — Triggers` references in 05.10, and Chapter 17 refers to it as `18.xx — Stored Procedures and Triggers`.
+
+- Validation: 0 errors and no Chapter 17 warnings (the remaining 15 warnings are in Chapter 05, as before).
+- Typecheck, 797 tests and a production build pass; the build emits 17 section chunks plus the chapter overview.
+- The chapter reuses the Chapter 15 schema and assumed sizes. A few examples add illustrative columns (`TenantID`, `UpdatedAt`, `LoginName`, `SalesRepID`), and plan output is realistic in shape but abbreviated.
+- Section titles avoid words that earlier chapter titles contain, so the existing filter cases are unchanged. `filterChapters.test.ts` expects "views and materialized views" to match all of Chapter 17, and uses "stored procedures and triggers" as the coming-soon case.
